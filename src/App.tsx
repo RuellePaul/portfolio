@@ -1,10 +1,13 @@
-function App() {
+import Universe from './components/Universe';
 
+function App() {
     return (
-        <div>
-            App
-        </div>
-    )
+        <>
+            <Universe />
+
+            <main>...</main>
+        </>
+    );
 }
 
-export default App
+export default App;

@@ -1,4 +1,4 @@
-import Universe from 'src/components/Universe';
+import Universe from 'src/components/Universe.tsx';
 
 function App() {
     return (

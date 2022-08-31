@@ -1,4 +1,4 @@
-import Universe from './components/Universe';
+import Universe from 'src/components/Universe';
 
 function App() {
     return (

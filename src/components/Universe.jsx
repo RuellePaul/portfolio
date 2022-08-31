@@ -14,89 +14,70 @@ const CanvasContainer = styled.div`
 `;
 
 function Universe() {
-    const container = useRef();
+    const canvas = useRef();
 
     useEffect(() => {
         // Setup
-
         const scene = new THREE.Scene();
-
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
         const renderer = new THREE.WebGLRenderer({
-            canvas: document.querySelector('canvas')
+            canvas: canvas.current,
+            antialias: true
         });
 
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(window.innerWidth, window.innerHeight);
-        camera.position.setZ(30);
-        camera.position.setX(-3);
-
         renderer.render(scene, camera);
 
-        const geometry = new THREE.TorusGeometry(10, 3, 16, 100);
-        const material = new THREE.MeshStandardMaterial({color: 0xffffff});
-
         // Lights
-
         const pointLight = new THREE.PointLight(0xffffff);
-        pointLight.position.set(5, 5, 5);
+        scene.add(pointLight);
 
-        const ambientLight = new THREE.AmbientLight(0xffffff);
-        scene.add(pointLight, ambientLight);
-
-        // Helpers
-
-        // const lightHelper = new THREE.PointLightHelper(pointLight)
-        // const gridHelper = new THREE.GridHelper(200, 50);
-        // scene.add(lightHelper, gridHelper)
-
-        // const controls = new OrbitControls(camera, renderer.domElement);
-
+        // Stars
         function addStar() {
-            const geometry = new THREE.BoxGeometry(randInt(3, 10), randInt(3, 10), randInt(3, 10));
+            const geometry = new THREE.SphereGeometry(randInt(1, 5));
+            const material = new THREE.MeshStandardMaterial({color: 0xffffff});
             const star = new THREE.Mesh(geometry, material);
 
             const [x, y, z] = Array(3)
                 .fill()
-                .map(() => THREE.MathUtils.randFloatSpread(1000));
+                .map(() => THREE.MathUtils.randFloatSpread(2000));
 
             star.position.set(x, y, z);
             scene.add(star);
         }
 
-        Array(300).fill().forEach(addStar);
+        Array(500).fill().forEach(addStar);
 
         // Scroll Animation
-
         function moveCamera() {
-            const t = document.body.getBoundingClientRect().top;
+            const t = Math.abs(document.body.getBoundingClientRect().top);
+            const height = document.body.clientHeight - window.innerHeight;
 
-            camera.position.z = t * -0.1;
-            camera.position.x = t * -0.002;
-            camera.rotation.y = t * -0.0002;
-            camera.rotation.z = t * -0.0002;
+            const target = {position: {x: 500, y: 0, z: -500}, rotation: {x: 3.14, y: 0, z: 0}};
+
+            camera.position.x = (t / height) * target.position.x;
+            camera.position.y = (t / height) * target.position.y;
+            camera.position.z = (t / height) * target.position.z;
+            camera.rotation.x = (t / height) * target.rotation.x;
+            camera.rotation.y = (t / height) * target.position.y;
+            camera.rotation.z = (t / height) * target.rotation.z;
         }
 
         document.body.onscroll = moveCamera;
-        moveCamera();
 
         // Animation Loop
-
         function animate() {
             requestAnimationFrame(animate);
-
-            // controls.update();
-
             renderer.render(scene, camera);
         }
-
         animate();
     }, []);
 
     return (
-        <CanvasContainer ref={container}>
-            <canvas />
+        <CanvasContainer>
+            <canvas ref={canvas} />
         </CanvasContainer>
     );
 }

@@ -45,20 +45,18 @@ class OpeningScene extends Scene {
 
             const t = window.performance.now() * 0.0005;
 
-            this.model.scene.rotation.x = -t * 0.3;
-            this.model.scene.rotation.z = -t * 0.3;
+            this.model.scene.rotation.x = -t * 0.2;
+            this.model.scene.rotation.z = -t * 0.2;
 
-            ring1.rotation.x = -t * 0.3;
-            ring2.rotation.y = -t * 0.3;
+            ring1.rotation.x = -t * 0.4;
+            ring2.rotation.y = -t * 0.6;
 
             ring1.children.forEach((child, i) => {
-                if (i % 2 === 0) return;
                 child.rotation.x = t * Math.sin(i);
                 child.rotation.y = t * Math.cos(i);
             });
 
             ring2.children.forEach((child, i) => {
-                if (i % 2 === 0) return;
                 child.rotation.x = t * Math.sin(i);
                 child.rotation.y = t * Math.cos(i);
             });

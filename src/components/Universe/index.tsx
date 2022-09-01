@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import * as THREE from 'three';
 import {randInt} from 'three/src/math/MathUtils';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
+import Engine from 'src/components/Universe/Engine';
 
 const CanvasContainer = styled.div`
     canvas {
@@ -14,25 +15,18 @@ const CanvasContainer = styled.div`
     }
 `;
 
-function Universe() {
-    const canvas = useRef<HTMLCanvasElement>(null);
+function Index() {
+    const container = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        if (canvas.current) {
+        if (container.current) {
             // Setup
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
-            const renderer = new THREE.WebGLRenderer({
-                canvas: canvas.current,
-                antialias: true
-            });
-            renderer.setPixelRatio(window.devicePixelRatio);
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.render(scene, camera);
+            const engine = new Engine();
+            engine.attach(container.current);
 
             // Lights
             const light = new THREE.AmbientLight(0xffffff);
-            scene.add(light);
+            engine.scene.add(light);
 
             // Stars
             function addStar(maxSize: number) {
@@ -42,7 +36,7 @@ function Universe() {
 
                 const [x, y, z] = new Array(3).fill(0).map(() => THREE.MathUtils.randFloatSpread(2000));
                 star.position.set(x, y, z);
-                scene.add(star);
+                engine.scene.add(star);
             }
 
             Array(1000)
@@ -59,12 +53,12 @@ function Universe() {
 
                 const target = {position: {x: 0, y: 0, z: -100}, rotation: {x: 0, y: 0, z: 0}};
 
-                camera.position.x = (t / height) * target.position.x;
-                camera.position.y = (t / height) * target.position.y;
-                camera.position.z = (t / height) * target.position.z;
-                camera.rotation.x = (t / height) * target.rotation.x;
-                camera.rotation.y = (t / height) * target.position.y;
-                camera.rotation.z = (t / height) * target.rotation.z;
+                engine.camera.position.x = (t / height) * target.position.x;
+                engine.camera.position.y = (t / height) * target.position.y;
+                engine.camera.position.z = (t / height) * target.position.z;
+                engine.camera.rotation.x = (t / height) * target.rotation.x;
+                engine.camera.rotation.y = (t / height) * target.position.y;
+                engine.camera.rotation.z = (t / height) * target.rotation.z;
             }
 
             document.body.onscroll = moveCamera;
@@ -76,33 +70,12 @@ function Universe() {
             loader.load('src/models/asteroids3.gltf', function (gltf) {
                 ring1 = gltf.scene.children[0];
 
-                scene.add(gltf.scene);
+                engine.scene.add(gltf.scene);
             });
-
-            // Resize
-            window.addEventListener('resize', onWindowResize, false);
-            function onWindowResize() {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-
-                renderer.setSize(window.innerWidth, window.innerHeight);
-            }
-
-            // Animation Loop
-            function animate() {
-                requestAnimationFrame(animate);
-                renderer.render(scene, camera);
-            }
-
-            animate();
         }
     }, []);
 
-    return (
-        <CanvasContainer>
-            <canvas ref={canvas} />
-        </CanvasContainer>
-    );
+    return <CanvasContainer ref={container} />;
 }
 
-export default memo(Universe);
+export default memo(Index);

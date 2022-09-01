@@ -24,28 +24,6 @@ function Universe() {
             const engine = new Engine();
             engine.attach(container.current);
 
-            // Lights
-            const light = new THREE.AmbientLight(0xffffff);
-            engine.scene.add(light);
-
-            // Stars
-            function addStar(maxSize: number) {
-                const geometry = new THREE.SphereGeometry(randInt(1, maxSize));
-                const material = new THREE.MeshStandardMaterial({color: 0xffffff});
-                const star = new THREE.Mesh(geometry, material);
-
-                const [x, y, z] = new Array(3).fill(0).map(() => THREE.MathUtils.randFloatSpread(2000));
-                star.position.set(x, y, z);
-                engine.scene.add(star);
-            }
-
-            Array(1000)
-                .fill(0)
-                .forEach(() => addStar(1));
-            Array(100)
-                .fill(0)
-                .forEach(() => addStar(10));
-
             // Scroll Animation
             function moveCamera() {
                 const t = Math.abs(document.body.getBoundingClientRect().top);
@@ -62,16 +40,6 @@ function Universe() {
             }
 
             document.body.onscroll = moveCamera;
-
-            // Asteroids
-            let ring1;
-            const loader = new GLTFLoader();
-
-            loader.load('src/models/asteroids3.gltf', function (gltf) {
-                ring1 = gltf.scene.children[0];
-
-                engine.scene.add(gltf.scene);
-            });
         }
     }, []);
 

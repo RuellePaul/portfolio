@@ -1,10 +1,11 @@
 import * as THREE from 'three';
 import {PerspectiveCamera, Scene, WebGLRenderer} from 'three';
+import OpeningScene from 'src/components/Universe/scenes/OpeningScene';
 
 class Engine {
     public renderer: WebGLRenderer;
     public camera: PerspectiveCamera;
-    public scene: Scene;
+    public scene: OpeningScene;
     private attached: Boolean = false;
 
     constructor() {
@@ -20,11 +21,12 @@ class Engine {
             this.renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
-        this.scene = new THREE.Scene();
+        this.scene = new OpeningScene();
 
         // Animation Loop
         const animate = () => {
             requestAnimationFrame(animate);
+            this.scene.update();
             this.renderer.render(this.scene, this.camera);
         };
         animate();

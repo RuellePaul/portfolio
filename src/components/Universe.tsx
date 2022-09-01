@@ -97,7 +97,14 @@ function Universe() {
                     console.log('An error happened');
                 }
             );
+            window.addEventListener('resize', onWindowResize, false);
 
+            function onWindowResize() {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            }
             // Animation Loop
             function animate() {
                 requestAnimationFrame(animate);

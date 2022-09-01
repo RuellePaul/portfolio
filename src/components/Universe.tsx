@@ -22,12 +22,10 @@ function Universe() {
             // Setup
             const scene = new THREE.Scene();
             const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
-
             const renderer = new THREE.WebGLRenderer({
                 canvas: canvas.current,
                 antialias: true
             });
-
             renderer.setPixelRatio(window.devicePixelRatio);
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.render(scene, camera);
@@ -72,39 +70,24 @@ function Universe() {
             document.body.onscroll = moveCamera;
 
             // Asteroids
-
+            let ring1;
             const loader = new GLTFLoader();
 
-            loader.load(
-                // resource URL
-                'src/models/asteroids3.gltf',
-                // called when the resource is loaded
-                function (gltf) {
-                    scene.add(gltf.scene);
+            loader.load('src/models/asteroids3.gltf', function (gltf) {
+                ring1 = gltf.scene.children[0];
 
-                    gltf.animations; // Array<THREE.AnimationClip>
-                    gltf.scene; // THREE.Group
-                    gltf.scenes; // Array<THREE.Group>
-                    gltf.cameras; // Array<THREE.Camera>
-                    gltf.asset; // Object
-                },
-                // called while loading is progressing
-                function (xhr) {
-                    console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
-                },
-                // called when loading has errors
-                function (error) {
-                    console.log('An error happened');
-                }
-            );
+                scene.add(gltf.scene);
+            });
+
+            // Resize
             window.addEventListener('resize', onWindowResize, false);
-
             function onWindowResize() {
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
 
                 renderer.setSize(window.innerWidth, window.innerHeight);
             }
+
             // Animation Loop
             function animate() {
                 requestAnimationFrame(animate);

@@ -15,7 +15,7 @@ const CanvasContainer = styled.div`
     }
 `;
 
-function Index() {
+function Universe() {
     const container = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -78,4 +78,4 @@ function Index() {
     return <CanvasContainer ref={container} />;
 }
 
-export default memo(Index);
+export default memo(Universe);

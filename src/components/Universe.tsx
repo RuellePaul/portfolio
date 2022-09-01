@@ -2,6 +2,7 @@ import {memo, useEffect, useRef} from 'react';
 import styled from '@emotion/styled';
 import * as THREE from 'three';
 import {randInt} from 'three/src/math/MathUtils';
+import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
 
 const CanvasContainer = styled.div`
     canvas {
@@ -69,6 +70,33 @@ function Universe() {
             }
 
             document.body.onscroll = moveCamera;
+
+            // Asteroids
+
+            const loader = new GLTFLoader();
+
+            loader.load(
+                // resource URL
+                'src/models/asteroids3.gltf',
+                // called when the resource is loaded
+                function (gltf) {
+                    scene.add(gltf.scene);
+
+                    gltf.animations; // Array<THREE.AnimationClip>
+                    gltf.scene; // THREE.Group
+                    gltf.scenes; // Array<THREE.Group>
+                    gltf.cameras; // Array<THREE.Camera>
+                    gltf.asset; // Object
+                },
+                // called while loading is progressing
+                function (xhr) {
+                    console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
+                },
+                // called when loading has errors
+                function (error) {
+                    console.log('An error happened');
+                }
+            );
 
             // Animation Loop
             function animate() {

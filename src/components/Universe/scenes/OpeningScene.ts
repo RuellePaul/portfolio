@@ -2,6 +2,8 @@ import * as THREE from 'three';
 import {Scene} from 'three';
 import {randInt} from 'three/src/math/MathUtils';
 import {GLTF, GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
+import {FontLoader} from 'three/examples/jsm/loaders/FontLoader';
+import {TextGeometry} from 'three/examples/jsm/geometries/TextGeometry';
 
 class OpeningScene extends Scene {
     private model: GLTF;
@@ -25,6 +27,22 @@ class OpeningScene extends Scene {
         loader.load('src/models/asteroids3.gltf', (model) => {
             this.model = model;
             this.add(model.scene);
+        });
+
+        // TExt
+        const fontLoader = new FontLoader();
+
+        fontLoader.load('src/assets/fonts/helvetiker_regular.typeface.json', (font) => {
+            const geometry = new TextGeometry('Paul Ruelle', {
+                font: font,
+                size: 10,
+                height: 2
+            });
+
+            const material = new THREE.MeshStandardMaterial({color: 0xffffff});
+            const text = new THREE.Mesh(geometry, material);
+            text.position.z = -150;
+            this.add(text);
         });
     }
 

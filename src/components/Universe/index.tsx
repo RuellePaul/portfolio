@@ -29,7 +29,7 @@ function Universe() {
                 const t = Math.abs(document.body.getBoundingClientRect().top);
                 const height = document.body.clientHeight - window.innerHeight;
 
-                const target = {position: {x: 0, y: 0, z: -100}, rotation: {x: 0, y: 0, z: 0}};
+                const target = {position: {x: 0, y: 0, z: -100}, rotation: {x: 0.5, y: 0, z: -1}};
 
                 engine.camera.position.x = (t / height) * target.position.x;
                 engine.camera.position.y = (t / height) * target.position.y;

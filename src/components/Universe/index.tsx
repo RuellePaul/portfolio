@@ -1,8 +1,5 @@
 import {memo, useEffect, useRef} from 'react';
 import styled from '@emotion/styled';
-import * as THREE from 'three';
-import {randInt} from 'three/src/math/MathUtils';
-import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
 import Engine from 'src/components/Universe/Engine';
 
 const CanvasContainer = styled.div`

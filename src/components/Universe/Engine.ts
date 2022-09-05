@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {PerspectiveCamera, Scene, WebGLRenderer} from 'three';
+import {PerspectiveCamera, WebGLRenderer} from 'three';
 import OpeningScene from 'src/components/Universe/scenes/OpeningScene';
 
 class Engine {

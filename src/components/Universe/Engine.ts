@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {PerspectiveCamera, WebGLRenderer} from 'three';
+import {PCFSoftShadowMap, PerspectiveCamera, ReinhardToneMapping, WebGLRenderer} from 'three';
 import OpeningScene from 'src/components/Universe/scenes/OpeningScene';
 
 class Engine {
@@ -10,16 +10,20 @@ class Engine {
 
     constructor() {
         this.renderer = new WebGLRenderer({antialias: true});
+        this.renderer.toneMapping = ReinhardToneMapping;
+        this.renderer.toneMappingExposure = Math.pow(1.5, 4.0);
+        this.renderer.shadowMap.type = PCFSoftShadowMap;
+        this.renderer.shadowMap.enabled = true;
+
+        // 💡 Turn lights on/off
+        // this.renderer.setClearColor(0x000000);
+
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.setSize(window.innerWidth, window.innerHeight);
 
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
 
-        window.addEventListener('resize', () => {
-            this.camera.aspect = window.innerWidth / window.innerHeight;
-            this.camera.updateProjectionMatrix();
-            this.renderer.setSize(window.innerWidth, window.innerHeight);
-        });
+        window.addEventListener('resize', this.resize);
 
         this.scene = new OpeningScene();
 
@@ -31,6 +35,12 @@ class Engine {
         };
         animate();
     }
+
+    resize = () => {
+        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+    };
 
     attach = (parent: HTMLDivElement) => {
         if (!this.attached) {

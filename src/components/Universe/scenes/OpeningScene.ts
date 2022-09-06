@@ -1,35 +1,68 @@
 import * as THREE from 'three';
-import {Scene} from 'three';
+import {AmbientLight, PerspectiveCamera, Scene, WebGLRenderer} from 'three';
 import {randInt} from 'three/src/math/MathUtils';
 import {GLTF, GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
 import {FontLoader} from 'three/examples/jsm/loaders/FontLoader';
 import {TextGeometry} from 'three/examples/jsm/geometries/TextGeometry';
 
-class OpeningScene extends Scene {
-    private model: GLTF;
+import mainCamera, {MainCamera} from 'src/components/Universe/mainCamera';
+import {EffectComposer} from 'three/examples/jsm/postprocessing/EffectComposer';
+import {RenderPass} from 'three/examples/jsm/postprocessing/RenderPass';
+import {Progress} from 'src/types';
 
-    constructor() {
-        super();
+class OpeningScene {
+    public range = {
+        start: 0,
+        end: 1,
+        section: 0
+    };
 
-        // Lights
-        const light = new THREE.AmbientLight(0xffffff);
-        this.add(light);
+    renderer: WebGLRenderer;
+    cameraObject: MainCamera;
+    camera: PerspectiveCamera;
+    scene: Scene;
+    model: GLTF;
+    private simpleComposer: EffectComposer;
 
+    constructor(renderer: WebGLRenderer) {
+        this.renderer = renderer;
+        this.cameraObject = mainCamera();
+        this.camera = this.cameraObject.camera;
+        this.scene = new Scene();
+
+        this.scene.add(new AmbientLight(0xffffff, 10));
+        this.scene.add(this.cameraObject);
+
+        this.setupRender();
+
+        this.loadModels(this.initScene);
+    }
+
+    setupRender = () => {
+        const sceneRender = new RenderPass(this.scene, this.camera);
+
+        this.simpleComposer = new EffectComposer(this.renderer);
+        this.simpleComposer.addPass(sceneRender);
+    };
+
+    initScene = () => {
         Array(1000)
             .fill(0)
             .forEach(() => this.addStar(1));
         Array(100)
             .fill(0)
             .forEach(() => this.addStar(10));
+    };
 
+    loadModels = (callback: () => void) => {
         // Asteroids
         const loader = new GLTFLoader();
         loader.load('src/models/asteroids3.gltf', (model) => {
             this.model = model;
-            this.add(model.scene);
+            this.scene.add(model.scene);
         });
 
-        // TExt
+        // Text
         const fontLoader = new FontLoader();
 
         fontLoader.load('src/assets/fonts/helvetiker_regular.typeface.json', (font) => {
@@ -42,9 +75,11 @@ class OpeningScene extends Scene {
             const material = new THREE.MeshStandardMaterial({color: 0xffffff});
             const text = new THREE.Mesh(geometry, material);
             text.position.z = -150;
-            this.add(text);
+            this.scene.add(text);
         });
-    }
+
+        callback();
+    };
 
     addStar = (maxSize: number) => {
         const geometry = new THREE.SphereGeometry(randInt(1, maxSize));
@@ -53,10 +88,11 @@ class OpeningScene extends Scene {
 
         const [x, y, z] = new Array(3).fill(0).map(() => THREE.MathUtils.randFloatSpread(2000));
         star.position.set(x, y, z);
-        this.add(star);
+        this.scene.add(star);
     };
 
-    update = () => {
+    update = (progress: number) => {
+        console.log('Scene progress', progress);
         if (this.model) {
             const ring1 = this.model.scene.children[0];
             const ring2 = this.model.scene.children[1];

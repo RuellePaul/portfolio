@@ -1,17 +1,8 @@
-import * as THREE from 'three';
-import {PCFSoftShadowMap, PerspectiveCamera, ReinhardToneMapping, WebGLRenderer} from 'three';
-import OpeningScene from 'src/components/Universe/scenes/OpeningScene';
-
-interface Section {
-    start: number;
-    end: number;
-}
-
-interface Progress {
-    sectionProgress: number;
-    overallProgress: number;
-    currentSection: number;
-}
+import {Object3D, PCFSoftShadowMap, PerspectiveCamera, ReinhardToneMapping, WebGLRenderer} from 'three';
+import SceneManager from 'src/components/Universe/SceneManager';
+import {Progress, Section} from 'src/types';
+import {relativeProgress} from 'src/components/Universe/math';
+import mainCamera, {MainCamera} from 'src/components/Universe/mainCamera';
 
 const SECTIONS: Section[] = [
     {
@@ -34,11 +25,12 @@ const within = (number: number, min: number, max: number) => {
 
 class Engine {
     public renderer: WebGLRenderer;
-    public camera: PerspectiveCamera;
     private attached: Boolean = false;
     private sceneManager: SceneManager;
     private progress: Progress;
     private scrollY: number = 0;
+    cameraObject: MainCamera;
+    camera: PerspectiveCamera;
 
     constructor() {
         this.renderer = new WebGLRenderer({antialias: true});
@@ -55,11 +47,10 @@ class Engine {
 
         this.sceneManager = new SceneManager(this.renderer);
 
-        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
+        this.cameraObject = mainCamera();
+        this.camera = this.cameraObject.camera;
 
         window.addEventListener('resize', this.resize);
-
-        this.scene = new OpeningScene();
 
         // Animation Loop
         const animate = () => {
@@ -97,11 +88,22 @@ class Engine {
         });
 
         let sectionProgress = 0;
+        let start = 0;
+        let end = 0;
+        if (currentSection >= 0) {
+            const {start: sectionStart, end: sectionEnd} = SECTIONS[currentSection];
+            start = sectionStart;
+            end = sectionEnd;
+            sectionProgress = relativeProgress(this.scrollY, sectionStart, sectionEnd);
+        }
 
         this.progress = {
             sectionProgress,
             overallProgress,
-            currentSection
+            currentSection,
+            start,
+            end,
+            scrollY: this.scrollY
         };
     };
 }

@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {PCFSoftShadowMap, PerspectiveCamera, ReinhardToneMapping, WebGLRenderer} from 'three';
+import {PCFSoftShadowMap, PerspectiveCamera, ReinhardToneMapping, Vector3, WebGLRenderer} from 'three';
 import OpeningScene from 'src/components/Universe/scenes/OpeningScene';
 
 class Engine {
@@ -21,16 +21,34 @@ class Engine {
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.setSize(window.innerWidth, window.innerHeight);
 
-        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
+        this.camera = camera;
 
         window.addEventListener('resize', this.resize);
 
         this.scene = new OpeningScene();
 
+        // Scroll Animation
+        function moveCamera() {
+            const scroller = document.querySelector('section[data-scrollbar="true"] > :first-child');
+            if (!scroller) {
+                return;
+            }
+            const t = Math.abs(scroller.getBoundingClientRect().top);
+            const height = scroller.clientHeight - window.innerHeight;
+
+            const targetPosition = new Vector3(0, 0, -100);
+
+            camera.position.x = (t / height) * targetPosition.x;
+            camera.position.y = (t / height) * targetPosition.y;
+            camera.position.z = (t / height) * targetPosition.z;
+        }
+
         // Animation Loop
         const animate = () => {
             requestAnimationFrame(animate);
             this.scene.update();
+            moveCamera();
             this.renderer.render(this.scene, this.camera);
         };
         animate();

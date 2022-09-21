@@ -28,22 +28,6 @@ class Scene extends ThreeScene {
             this.model = model;
             this.add(model.scene);
         });
-
-        // TExt
-        const fontLoader = new FontLoader();
-
-        fontLoader.load('src/assets/fonts/helvetiker_regular.typeface.json', (font) => {
-            const geometry = new TextGeometry('Paul Ruelle', {
-                font: font,
-                size: 10,
-                height: 2
-            });
-
-            const material = new THREE.MeshStandardMaterial({color: 0xffffff});
-            const text = new THREE.Mesh(geometry, material);
-            text.position.z = -150;
-            this.add(text);
-        });
     }
 
     addStar = (maxSize: number) => {

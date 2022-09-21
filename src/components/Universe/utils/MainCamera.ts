@@ -26,7 +26,7 @@ class MainCamera extends Object3D {
         this.cam.updateProjectionMatrix();
     };
 
-    setPosition({x, y, z}) {
+    setPosition({x, y, z}: {x: number; y: number; z: number}) {
         this.position.x = x;
         this.position.y = y;
         this.position.z = z;

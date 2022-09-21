@@ -1,9 +1,17 @@
 import {Vector3} from 'three';
 import {interpolate, relativeProgress} from 'src/components/Universe/utils/math';
 
+interface XYZ {
+    x: number;
+    y: number;
+    z: number;
+}
+
+type Value = Partial<XYZ> | number;
+
 interface Path {
     type: string;
-    value: {x?: number; y?: number; z?: number} | number;
+    value: Value;
     start: number;
     end: number;
     easing?: any;
@@ -23,8 +31,6 @@ class FlightPath {
     rotationZ = [];
 
     fovTimeline = [];
-
-    isNarrow = false;
 
     arrays = [
         {
@@ -69,82 +75,67 @@ class FlightPath {
         }
     ];
 
-    private cam: any;
-    private initalPosition: Vector3;
-    private initalRotation: Vector3;
-    private initalOffset: Vector3;
-    private initalFOV: number;
+    private progress: number;
+    private cameraObject: any;
+    private initialPosition: Vector3;
+    private initialRotation: Vector3;
+    private initialOffset: Vector3;
+    private initialFOV: number;
     private currentOffset: Vector3;
     private currentPosition: Vector3;
     private currentRotation: Vector3;
     private currentFov: number;
-    constructor(camera: any) {
-        this.cam = camera;
 
-        this.initalPosition = new Vector3().copy(camera.getPosition());
-        this.initalRotation = new Vector3().copy(camera.getRotation());
-        this.initalOffset = new Vector3().copy(camera.getOffset());
-        this.initalFOV = camera.getFov();
+    constructor(cameraObject: any) {
+        this.cameraObject = cameraObject;
 
-        this.currentPosition = new Vector3().copy(camera.getPosition());
-        this.currentOffset = new Vector3().copy(camera.getOffset());
-        this.currentRotation = new Vector3().copy(camera.getRotation());
+        this.initialPosition = new Vector3().copy(cameraObject.getPosition());
+        this.initialRotation = new Vector3().copy(cameraObject.getRotation());
+        this.initialOffset = new Vector3().copy(cameraObject.getOffset());
+        this.initialFOV = cameraObject.getFov();
 
-        this.currentFov = this.initalFOV;
+        this.currentPosition = new Vector3().copy(cameraObject.getPosition());
+        this.currentOffset = new Vector3().copy(cameraObject.getOffset());
+        this.currentRotation = new Vector3().copy(cameraObject.getRotation());
 
-        this.isNarrow = window.innerWidth < 800;
-
-        window.addEventListener('resize', () => {
-            this.isNarrow = window.innerWidth < 800;
-        });
+        this.currentFov = this.initialFOV;
     }
 
-    add({type, value, start, end, easing, altVal = {}}: Path) {
-        const dataObj = (value, alt) => {
+    add({type, value, start, end, easing}: Path) {
+        const dataObj = (value: Partial<XYZ>) => {
             return {
                 start,
                 end,
                 value,
-                altVal: typeof alt === 'undefined' ? value : alt,
-                easing:
-                    easing ||
-                    function (p) {
-                        return p;
-                    }
+                easing: easing || ((x: any) => x)
             };
         };
 
-        let arr;
+        let array: Partial<Path>[] = [];
 
         if (type === 'position') {
-            for (let prop in value) {
-                const alt = typeof altVal[prop] !== 'undefined' ? altVal[prop] : value[prop];
+            for (let prop in value as Partial<XYZ>) {
+                if (prop === 'x') array = this.positionX;
+                if (prop === 'y') array = this.positionY;
+                if (prop === 'z') array = this.positionZ;
 
-                if (prop === 'x') arr = this.positionX;
-                if (prop === 'y') arr = this.positionY;
-                if (prop === 'z') arr = this.positionZ;
-
-                arr.push(dataObj(value[prop], alt));
+                array.push(dataObj(value[prop]));
             }
         } else if (type === 'offset') {
-            for (let prop in value) {
-                const alt = typeof altVal[prop] !== 'undefined' ? altVal[prop] : value[prop];
+            for (let prop in value as Partial<XYZ>) {
+                if (prop === 'x') array = this.offsetX;
+                if (prop === 'y') array = this.offsetY;
+                if (prop === 'z') array = this.offsetZ;
 
-                if (prop === 'x') arr = this.offsetX;
-                if (prop === 'y') arr = this.offsetY;
-                if (prop === 'z') arr = this.offsetZ;
-
-                arr.push(dataObj(value[prop], alt));
+                array.push(dataObj(value[prop]));
             }
         } else if (type === 'rotation') {
-            for (let prop in value) {
-                const alt = typeof altVal[prop] !== 'undefined' ? altVal[prop] : value[prop];
+            for (let prop in value as Partial<XYZ>) {
+                if (prop === 'x') array = this.rotationX;
+                if (prop === 'y') array = this.rotationY;
+                if (prop === 'z') array = this.rotationZ;
 
-                if (prop === 'x') arr = this.rotationX;
-                if (prop === 'y') arr = this.rotationY;
-                if (prop === 'z') arr = this.rotationZ;
-
-                arr.push(dataObj(value[prop], alt));
+                array.push(dataObj(value[prop]));
             }
         } else if (type === 'fov') {
             this.fovTimeline.push(dataObj(value));
@@ -153,51 +144,51 @@ class FlightPath {
 
     finished = () => {
         this.arrays.forEach((item) => {
-            const {data: arr, type} = item;
+            const {data: array, type} = item;
 
             let initial;
 
             switch (type) {
                 case 'positionX':
-                    initial = this.initalPosition.x;
+                    initial = this.initialPosition.x;
                     break;
                 case 'positionY':
-                    initial = this.initalPosition.y;
+                    initial = this.initialPosition.y;
                     break;
                 case 'positionZ':
-                    initial = this.initalPosition.z;
+                    initial = this.initialPosition.z;
                     break;
                 case 'offsetX':
-                    initial = this.initalOffset.x;
+                    initial = this.initialOffset.x;
                     break;
                 case 'offsetY':
-                    initial = this.initalOffset.y;
+                    initial = this.initialOffset.y;
                     break;
                 case 'offsetZ':
-                    initial = this.initalOffset.z;
+                    initial = this.initialOffset.z;
                     break;
                 case 'rotationX':
-                    initial = this.initalRotation.x;
+                    initial = this.initialRotation.x;
                     break;
                 case 'rotationY':
-                    initial = this.initalRotation.y;
+                    initial = this.initialRotation.y;
                     break;
                 case 'rotationZ':
-                    initial = this.initalRotation.z;
+                    initial = this.initialRotation.z;
                     break;
                 case 'fov':
-                    initial = this.initalFOV;
+                    initial = this.initialFOV;
                     break;
                 default:
                     break;
             }
 
-            this.compile(arr, initial);
+            this.compile(array, initial);
         });
     };
 
-    compile = (arr, inital) => {
-        arr.sort(function (a, b) {
+    compile = (array, initial) => {
+        array.sort(function (a, b) {
             if (a.start < b.start) {
                 return -1;
             }
@@ -207,107 +198,92 @@ class FlightPath {
             return 0;
         });
 
-        arr.forEach((item, i) => {
-            item.initVal = i > 0 ? arr[i - 1].value : inital;
-            item.altInitVal = i > 0 ? arr[i - 1].altVal : inital;
+        array.forEach((item, i) => {
+            item.initVal = i > 0 ? array[i - 1].value : initial;
         });
 
-        this.fillGaps(arr);
+        this.fillGaps(array);
     };
 
-    fillGaps(arr) {
-        const {length} = arr;
+    fillGaps(array) {
+        const {length} = array;
         const temp = [];
 
         for (let i = 0; i < length; i++) {
-            const {start, end, initVal, value, altVal} = arr[i];
+            const {start, end, initVal, value} = array[i];
 
             if (i === 0 && start > 0) {
                 temp.push({
                     start: 0,
                     end: start,
                     value: initVal,
-                    altVal: initVal,
                     initVal,
-                    altInitVal: initVal,
                     easing: function (p) {
                         return p;
                     }
                 });
 
-                temp.push(arr[i]);
+                temp.push(array[i]);
 
                 if (length === 1) {
                     temp.push({
                         start: end,
                         end: 1,
                         value,
-                        altVal,
                         initVal: value,
-                        altInitVal: altVal,
-                        easing: function (p) {
-                            return p;
-                        }
+                        easing: (x: any) => x
                     });
                 }
             } else if (i === length - 1 && end < 1) {
-                temp.push(arr[i]);
+                temp.push(array[i]);
                 temp.push({
-                    start: arr[i].end,
+                    start: array[i].end,
                     end: 1,
                     value,
-                    altVal,
                     initVal: value,
-                    altInitVal: altVal,
                     easing: function (p) {
                         return p;
                     }
                 });
             } else if (length > 1 && i !== length - 1) {
-                const {start: start2} = arr[i + 1];
+                const {start: start2} = array[i + 1];
 
-                temp.push(arr[i]);
+                temp.push(array[i]);
 
                 if (end < start2) {
                     temp.push({
                         start: end,
                         end: start2,
                         value,
-                        altVal,
                         initVal: value,
-                        altInitVal: altVal,
-                        easing: function (p) {
-                            return p;
-                        }
+                        easing: (x: any) => x
                     });
                 }
-            } else temp.push(arr[i]);
+            } else temp.push(array[i]);
         }
 
-        arr.forEach((item) => {
-            arr.pop();
+        array.forEach((item) => {
+            array.pop();
         });
 
         temp.forEach((item) => {
-            arr.push(item);
+            array.push(item);
         });
     }
 
-    arrayLoop = (arr) => {
-        const {type, data} = arr;
+    arrayLoop = (array) => {
+        const {type, data} = array;
         const {length} = data;
         const {progress} = this;
 
         for (let i = 0; i < length; i++) {
-            const {easing, start, end, initVal, altInitVal, value, altVal} = data[i];
+            const {easing, start, end, initVal, value} = data[i];
 
             if (progress > end || progress < start) continue;
 
             const p = relativeProgress(progress, start, end);
             const ease = easing(p);
-            const input = this.isNarrow ? altVal : value;
-            const inputInit = this.isNarrow ? altInitVal : initVal;
-            const output = interpolate(inputInit, input, ease);
+            const output = interpolate(initVal, value, ease);
 
             if (type === 'positionX') this.currentPosition.x = output;
             if (type === 'positionY') this.currentPosition.y = output;
@@ -325,26 +301,11 @@ class FlightPath {
         }
     };
 
-    update(progress) {
+    update(progress: number) {
         this.progress = progress;
         this.arrays.forEach(this.arrayLoop);
 
         this.setValues();
-    }
-
-    setPosition() {
-        const {x, y, z} = this.currentPosition;
-        this.cam.setPosition({x, y, z});
-    }
-
-    setRotation() {
-        const {x, y, z} = this.currentRotation;
-        this.cam.setRotation({x, y, z});
-    }
-
-    setOffset() {
-        const {x, y, z} = this.currentOffset;
-        this.cam.setOffset({x, y, z});
     }
 
     setValues() {
@@ -352,7 +313,22 @@ class FlightPath {
         this.setRotation();
         this.setOffset();
 
-        this.cam.setFov(this.currentFov);
+        this.cameraObject.setFov(this.currentFov);
+    }
+
+    setPosition() {
+        const {x, y, z} = this.currentPosition;
+        this.cameraObject.setPosition({x, y, z});
+    }
+
+    setRotation() {
+        const {x, y, z} = this.currentRotation;
+        this.cameraObject.setRotation({x, y, z});
+    }
+
+    setOffset() {
+        const {x, y, z} = this.currentOffset;
+        this.cameraObject.setOffset({x, y, z});
     }
 }
 

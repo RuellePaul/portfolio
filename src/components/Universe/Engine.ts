@@ -2,7 +2,7 @@ import {PCFSoftShadowMap, PerspectiveCamera, ReinhardToneMapping, WebGLRenderer}
 import Scene from 'src/components/Universe/Scene';
 import FlightPath from 'src/components/Universe/utils/FlightPath';
 import {easing} from 'src/components/Universe/utils/math';
-import MainCamera from 'src/components/Universe/MainCamera';
+import MainCamera from 'src/components/Universe/utils/MainCamera';
 
 class Engine {
     public renderer: WebGLRenderer;
@@ -37,23 +37,23 @@ class Engine {
 
         this.flightPath.add({
             type: 'position',
-            value: {x: 100, z: -100},
+            value: {x: 100, z: 100},
             start: 0,
-            end: 0.5,
+            end: 0.4,
             easing: easing.inSine
         });
 
         this.flightPath.add({
             type: 'rotation',
-            value: {z: Math.PI / 2},
-            start: 0.25,
-            end: 0.75,
+            value: {y: Math.PI / 2},
+            start: 0,
+            end: 0.4,
             easing: easing.inSine
         });
 
         this.flightPath.add({
             type: 'fov',
-            value: 120,
+            value: 150,
             start: 0.75,
             end: 1,
             easing: easing.outSine

@@ -53,10 +53,17 @@ class Engine {
 
         this.flightPath.add({
             type: 'fov',
-            value: 150,
+            value: 120,
             start: 0.75,
             end: 1,
-            easing: easing.outSine
+            easing: easing.inSine
+        });
+        this.flightPath.add({
+            type: 'position',
+            value: {x: -150},
+            start: 0.75,
+            end: 1,
+            easing: easing.inSine
         });
 
         this.flightPath.finished();
@@ -65,7 +72,7 @@ class Engine {
         const animate = () => {
             requestAnimationFrame(animate);
             this.scene.update();
-            const scrollY = Math.abs(document.body.getBoundingClientRect().top);
+            const scrollY = document.body.getBoundingClientRect().top;
             const height = document.querySelector('main')!.clientHeight - window.innerHeight;
             const progress = Math.abs(scrollY / height);
             this.flightPath.update(progress);

@@ -26,6 +26,7 @@ class Scene extends ThreeScene {
         const loader = new GLTFLoader();
         loader.load('src/models/asteroids3.gltf', (model) => {
             this.model = model;
+            this.model.scene.position.z = -50;
             this.add(model.scene);
         });
     }

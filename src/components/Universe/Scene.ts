@@ -1,11 +1,11 @@
 import * as THREE from 'three';
-import {Scene} from 'three';
+import {Scene as ThreeScene} from 'three';
 import {randInt} from 'three/src/math/MathUtils';
 import {GLTF, GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
 import {FontLoader} from 'three/examples/jsm/loaders/FontLoader';
 import {TextGeometry} from 'three/examples/jsm/geometries/TextGeometry';
 
-class OpeningScene extends Scene {
+class Scene extends ThreeScene {
     private model: GLTF;
 
     constructor() {
@@ -15,10 +15,10 @@ class OpeningScene extends Scene {
         const light = new THREE.AmbientLight(0xffffff);
         this.add(light);
 
-        Array(1000)
+        Array(2000)
             .fill(0)
             .forEach(() => this.addStar(1));
-        Array(100)
+        Array(200)
             .fill(0)
             .forEach(() => this.addStar(10));
 
@@ -82,4 +82,4 @@ class OpeningScene extends Scene {
     };
 }
 
-export default OpeningScene;
+export default Scene;

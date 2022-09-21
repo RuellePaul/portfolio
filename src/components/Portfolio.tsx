@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
 
 const MainContainer = styled.main`
+    height: 1000vh; // FIXME
+
     width: 100vw;
     color: white;
     z-index: 99;

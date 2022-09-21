@@ -1,12 +1,16 @@
-import * as THREE from 'three';
-import {PCFSoftShadowMap, PerspectiveCamera, ReinhardToneMapping, Vector3, WebGLRenderer} from 'three';
-import OpeningScene from 'src/components/Universe/scenes/OpeningScene';
+import {PCFSoftShadowMap, PerspectiveCamera, ReinhardToneMapping, WebGLRenderer} from 'three';
+import Scene from 'src/components/Universe/Scene';
+import FlightPath from 'src/components/Universe/utils/FlightPath';
+import {easing} from 'src/components/Universe/utils/math';
+import MainCamera from 'src/components/Universe/MainCamera';
 
 class Engine {
     public renderer: WebGLRenderer;
     public camera: PerspectiveCamera;
-    public scene: OpeningScene;
+    public scene: Scene;
     private attached: Boolean = false;
+    private flightPath: FlightPath;
+    private cameraObject: any;
 
     constructor() {
         this.renderer = new WebGLRenderer({antialias: true});
@@ -20,26 +24,51 @@ class Engine {
 
         window.addEventListener('resize', this.resize);
 
-        this.scene = new OpeningScene();
+        this.scene = new Scene();
 
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
-        this.camera = camera;
-        function moveCamera() {
-            const scrollY = Math.abs(document.body.getBoundingClientRect().top);
-            const height = document.body.clientHeight - window.innerHeight;
+        this.cameraObject = MainCamera();
+        this.camera = this.cameraObject.camera;
 
-            const targetPosition = new Vector3(0, 0, -100);
+        this.cameraObject.setPosition({z: 0.3, y: 0.52, x: 0});
+        this.cameraObject.setRotation({x: Math.PI / 20, y: 0, z: 0});
+        this.scene.add(this.cameraObject);
 
-            camera.position.x = (scrollY / height) * targetPosition.x;
-            camera.position.y = (scrollY / height) * targetPosition.y;
-            camera.position.z = (scrollY / height) * targetPosition.z;
-        }
+        this.flightPath = new FlightPath(this.cameraObject);
+
+        this.flightPath.add({
+            type: 'position',
+            value: {x: 100, z: -100},
+            start: 0,
+            end: 0.5,
+            easing: easing.inSine
+        });
+
+        this.flightPath.add({
+            type: 'rotation',
+            value: {z: Math.PI / 2},
+            start: 0.25,
+            end: 0.75,
+            easing: easing.inSine
+        });
+
+        this.flightPath.add({
+            type: 'fov',
+            value: 120,
+            start: 0.75,
+            end: 1,
+            easing: easing.outSine
+        });
+
+        this.flightPath.finished();
 
         // Animation Loop
         const animate = () => {
             requestAnimationFrame(animate);
             this.scene.update();
-            moveCamera();
+            const scrollY = Math.abs(document.body.getBoundingClientRect().top);
+            const height = document.querySelector('main')!.clientHeight - window.innerHeight;
+            const progress = Math.abs(scrollY / height);
+            this.flightPath.update(progress);
             this.renderer.render(this.scene, this.camera);
         };
         animate();

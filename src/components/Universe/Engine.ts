@@ -72,7 +72,9 @@ class Engine {
         const animate = () => {
             requestAnimationFrame(animate);
             this.scene.update();
-            const scrollY = document.body.getBoundingClientRect().top;
+            const scroller = document.querySelector('section[data-scrollbar="true"] > :first-child');
+            if (!scroller) return;
+            const scrollY = scroller.getBoundingClientRect().top;
             const height = document.querySelector('main')!.clientHeight - window.innerHeight;
             const progress = Math.abs(scrollY / height);
             this.flightPath.update(progress);

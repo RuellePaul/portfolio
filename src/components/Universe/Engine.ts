@@ -69,16 +69,20 @@ class Engine {
         }
         this.flightPath.finished();
 
+        let oldScrollY = 0;
+
         // Animation Loop
         const animate = () => {
             requestAnimationFrame(animate);
+            this.renderer.render(this.scene, this.camera);
             this.scene.update();
             const scroller = document.querySelector('section[data-scrollbar="true"] > :first-child');
             if (!scroller) return;
             const scrollY = Math.abs(scroller.getBoundingClientRect().top);
+            if (oldScrollY === scrollY) return;
+            oldScrollY = scrollY;
             const progress = computeProgress(scrollY, sections);
             this.flightPath.update(progress - 1e-12);
-            this.renderer.render(this.scene, this.camera);
         };
         animate();
     }

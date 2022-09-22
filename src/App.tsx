@@ -5,7 +5,6 @@ import Universe from 'src/components/Universe';
 
 import {SectionsContext, SectionsProvider, useSections} from 'src/store/Sections';
 import {Path} from 'src/components/Universe/utils/FlightPath';
-import {easing} from 'src/components/Universe/utils/math';
 
 const Section: FC<{paths: Path[]}> = ({paths, children}) => {
     const ref = useRef<HTMLElement>();
@@ -39,29 +38,25 @@ function App() {
                             type: 'position',
                             value: {x: 100, z: 100},
                             start: 0,
-                            end: 0.4,
-                            easing: easing.inSine
+                            end: 0.4
                         },
                         {
                             type: 'rotation',
                             value: {y: Math.PI / 2},
                             start: 0,
-                            end: 0.4,
-                            easing: easing.inSine
+                            end: 0.4
                         },
                         {
                             type: 'fov',
                             value: 120,
                             start: 0.75,
-                            end: 1,
-                            easing: easing.inSine
+                            end: 1
                         },
                         {
                             type: 'offset',
                             value: {x: -150},
                             start: 0.75,
-                            end: 1,
-                            easing: easing.inSine
+                            end: 1
                         }
                     ]}
                 >
@@ -72,9 +67,8 @@ function App() {
                         {
                             type: 'rotation',
                             value: {x: Math.PI / 2},
-                            start: 1,
-                            end: 1.4,
-                            easing: easing.inSine
+                            start: 0,
+                            end: 0.4
                         }
                     ]}
                 >
@@ -85,9 +79,8 @@ function App() {
                         {
                             type: 'offset',
                             value: {z: 200},
-                            start: 2,
-                            end: 2.8,
-                            easing: easing.inSine
+                            start: 0,
+                            end: 0.8
                         }
                     ]}
                 >

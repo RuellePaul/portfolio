@@ -3,6 +3,9 @@ import Scene from 'src/components/Universe/Scene';
 import FlightPath from 'src/components/Universe/utils/FlightPath';
 import MainCamera from 'src/components/Universe/utils/MainCamera';
 import {Section} from 'src/store/Sections';
+import {easing} from 'src/components/Universe/utils/math';
+
+const DEFAULT_EASING = easing.inOutSine;
 
 const computeProgress = (scrollY: number, sections: Section[]) => {
     const cumulativeSum = (
@@ -54,9 +57,14 @@ class Engine {
 
         this.flightPath = new FlightPath(this.cameraObject);
 
-        for (const section of sections) {
+        for (const [index, section] of sections.entries()) {
             for (const path of section.paths) {
-                this.flightPath.add(path);
+                this.flightPath.add({
+                    ...path,
+                    start: index + path.start,
+                    end: index + path.end,
+                    easing: DEFAULT_EASING
+                });
             }
         }
         this.flightPath.finished();

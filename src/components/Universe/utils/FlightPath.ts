@@ -102,8 +102,9 @@ class FlightPath {
     }
 
     add({type, value, start, end, easing}: Path) {
-        const dataObj = (value: Partial<XYZ>) => {
+        const dataObj = (value: Value): Path => {
             return {
+                type,
                 start,
                 end,
                 value,
@@ -111,7 +112,7 @@ class FlightPath {
             };
         };
 
-        let array: Partial<Path>[] = [];
+        let array: Path[] = [];
 
         if (type === 'position') {
             for (let prop in value as Partial<XYZ>) {
@@ -119,6 +120,7 @@ class FlightPath {
                 if (prop === 'y') array = this.positionY;
                 if (prop === 'z') array = this.positionZ;
 
+                // @ts-ignore
                 array.push(dataObj(value[prop]));
             }
         } else if (type === 'offset') {
@@ -127,6 +129,7 @@ class FlightPath {
                 if (prop === 'y') array = this.offsetY;
                 if (prop === 'z') array = this.offsetZ;
 
+                // @ts-ignore
                 array.push(dataObj(value[prop]));
             }
         } else if (type === 'rotation') {
@@ -135,9 +138,11 @@ class FlightPath {
                 if (prop === 'y') array = this.rotationY;
                 if (prop === 'z') array = this.rotationZ;
 
+                // @ts-ignore
                 array.push(dataObj(value[prop]));
             }
         } else if (type === 'fov') {
+            // @ts-ignore
             this.fovTimeline.push(dataObj(value));
         }
     }
@@ -187,8 +192,8 @@ class FlightPath {
         });
     };
 
-    compile = (array, initial) => {
-        array.sort(function (a, b) {
+    compile = (array: any[], initial: number | undefined) => {
+        array.sort(function (a: Path, b: Path) {
             if (a.start < b.start) {
                 return -1;
             }
@@ -198,14 +203,14 @@ class FlightPath {
             return 0;
         });
 
-        array.forEach((item, i) => {
-            item.initVal = i > 0 ? array[i - 1].value : initial;
+        array.forEach((item: any, index) => {
+            item.initVal = index > 0 ? array[index - 1].value : initial;
         });
 
         this.fillGaps(array);
     };
 
-    fillGaps(array) {
+    fillGaps(array: any[]) {
         const {length} = array;
         const temp = [];
 
@@ -218,9 +223,7 @@ class FlightPath {
                     end: start,
                     value: initVal,
                     initVal,
-                    easing: function (p) {
-                        return p;
-                    }
+                    easing: (x: any) => x
                 });
 
                 temp.push(array[i]);
@@ -241,9 +244,7 @@ class FlightPath {
                     end: 1,
                     value,
                     initVal: value,
-                    easing: function (p) {
-                        return p;
-                    }
+                    easing: (x: any) => x
                 });
             } else if (length > 1 && i !== length - 1) {
                 const {start: start2} = array[i + 1];
@@ -271,7 +272,8 @@ class FlightPath {
         });
     }
 
-    arrayLoop = (array) => {
+    arrayLoop = (array: any[]) => {
+        // @ts-ignore
         const {type, data} = array;
         const {length} = data;
         const {progress} = this;
@@ -303,6 +305,7 @@ class FlightPath {
 
     update(progress: number) {
         this.progress = progress;
+        // @ts-ignore
         this.arrays.forEach(this.arrayLoop);
 
         this.setValues();

@@ -1,8 +1,7 @@
 import React, {createContext, Dispatch, FC, ReactNode, SetStateAction, useContext, useState} from 'react';
 
-interface Section {
+export interface Section {
     height: number;
-    order: number;
 }
 
 export interface SectionsContextValue {

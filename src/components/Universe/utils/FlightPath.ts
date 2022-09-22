@@ -10,7 +10,7 @@ interface XYZ {
 type Value = Partial<XYZ> | number;
 
 interface Path {
-    type: 'position' | 'rotation' | 'fov';
+    type: 'position' | 'rotation' | 'offset' | 'fov';
     value: Value;
     start: number;
     end: number;

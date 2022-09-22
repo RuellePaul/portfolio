@@ -5,13 +5,13 @@ import Universe from 'src/components/Universe';
 
 import {SectionsContext, SectionsProvider, useSections} from 'src/store/Sections';
 
-const Section: FC<{order: number}> = ({order, children}) => {
+const Section: FC = ({children}) => {
     const ref = useRef<HTMLElement>();
 
     const {sections, setSections} = useSections();
 
     useLayoutEffect(() => {
-        if (sections.length === 0) setSections((sections) => [...sections, {height: ref.current!.clientHeight, order}]);
+        if (sections.length === 0) setSections((sections) => [...sections, {height: ref.current!.clientHeight}]);
     }, []);
 
     return <Box ref={ref}>{children}</Box>;
@@ -31,14 +31,23 @@ function App() {
             </SectionsContext.Consumer>
 
             <Scrollbar damping={0.1}>
-                <Section order={1}>
+                <Section>
                     <Box sx={{border: 'solid 2px red', height: 3000}} />
                 </Section>
-                <Section order={2}>
+                <Section>
                     <Box sx={{border: 'solid 2px orange', height: 2000}} />
                 </Section>
-                <Section order={3}>
-                    <Box sx={{border: 'solid 2px white', height: 4000}} />
+                <Section>
+                    <Box sx={{border: 'solid 2px white', height: 8000}} />
+                </Section>
+                <Section>
+                    <Box sx={{border: 'solid 2px red', height: 3000}} />
+                </Section>
+                <Section>
+                    <Box sx={{border: 'solid 2px orange', height: 2000}} />
+                </Section>
+                <Section>
+                    <Box sx={{border: 'solid 2px white', height: 8000}} />
                 </Section>
             </Scrollbar>
         </SectionsProvider>

@@ -2,9 +2,8 @@ import React, {FC, useLayoutEffect, useRef} from 'react';
 import Scrollbar from 'react-smooth-scrollbar';
 import {Box, CssBaseline} from '@mui/material';
 import Universe from 'src/components/Universe';
-
-import {SectionsContext, SectionsProvider, useSections} from 'src/store/Sections';
-import {Path} from 'src/components/Universe/utils/FlightPath';
+import {SectionsProvider, useSections} from 'src/store/Sections';
+import {Hero, Projects, Skills} from 'src/components/sections';
 
 const Section: FC<{paths: Path[]}> = ({paths, children}) => {
     const ref = useRef<HTMLElement>();
@@ -24,12 +23,6 @@ function App() {
             <CssBaseline enableColorScheme />
 
             <Universe />
-
-            <SectionsContext.Consumer>
-                {(value) => (
-                    <pre style={{position: 'fixed', color: 'white'}}>{JSON.stringify(value.sections, null, 4)}</pre>
-                )}
-            </SectionsContext.Consumer>
 
             <Scrollbar damping={0.1}>
                 <Section
@@ -60,7 +53,7 @@ function App() {
                         }
                     ]}
                 >
-                    <Box sx={{border: 'dashed 5px red', height: 3000}} />
+                    <Hero />
                 </Section>
                 <Section
                     paths={[
@@ -72,7 +65,7 @@ function App() {
                         }
                     ]}
                 >
-                    <Box sx={{border: 'dashed 5px orange', height: 4000}} />
+                    <Projects />
                 </Section>
                 <Section
                     paths={[
@@ -84,7 +77,7 @@ function App() {
                         }
                     ]}
                 >
-                    <Box sx={{border: 'dashed 5px orange', height: 5000}} />
+                    <Skills />
                 </Section>
             </Scrollbar>
         </SectionsProvider>

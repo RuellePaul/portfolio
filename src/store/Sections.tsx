@@ -1,7 +1,9 @@
 import React, {createContext, Dispatch, FC, ReactNode, SetStateAction, useContext, useState} from 'react';
+import {Path} from 'src/components/Universe/utils/FlightPath';
 
 export interface Section {
     height: number;
+    paths: Path[];
 }
 
 export interface SectionsContextValue {

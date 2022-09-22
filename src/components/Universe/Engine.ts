@@ -1,7 +1,6 @@
 import {PCFSoftShadowMap, PerspectiveCamera, ReinhardToneMapping, WebGLRenderer} from 'three';
 import Scene from 'src/components/Universe/Scene';
 import FlightPath from 'src/components/Universe/utils/FlightPath';
-import {easing} from 'src/components/Universe/utils/math';
 import MainCamera from 'src/components/Universe/utils/MainCamera';
 import {Section} from 'src/store/Sections';
 
@@ -15,12 +14,15 @@ const computeProgress = (scrollY: number, sections: Section[]) => {
     const currentSectionIndex = cumulativeHeights.indexOf(cumulativeHeights.find((value) => value > scrollY) || 0);
     const currentSection = sections[currentSectionIndex];
 
-    return Math.abs(
-        (scrollY -
-            sections
-                .map((section, index) => (index < currentSectionIndex ? section.height : 0))
-                .reduce((acc, val) => acc + val, 0)) /
-            (currentSection.height - (currentSectionIndex === sections.length - 1 ? window.innerHeight : 0))
+    return (
+        currentSectionIndex +
+        Math.abs(
+            (scrollY -
+                sections
+                    .map((section, index) => (index < currentSectionIndex ? section.height : 0))
+                    .reduce((acc, val) => acc + val, 0)) /
+                (currentSection.height - (currentSectionIndex === sections.length - 1 ? window.innerHeight : 0))
+        )
     );
 };
 
@@ -52,37 +54,11 @@ class Engine {
 
         this.flightPath = new FlightPath(this.cameraObject);
 
-        this.flightPath.add({
-            type: 'position',
-            value: {x: 100, z: 100},
-            start: 0,
-            end: 0.4,
-            easing: easing.inSine
-        });
-
-        this.flightPath.add({
-            type: 'rotation',
-            value: {y: Math.PI / 2},
-            start: 0,
-            end: 0.4,
-            easing: easing.inSine
-        });
-
-        this.flightPath.add({
-            type: 'fov',
-            value: 120,
-            start: 0.75,
-            end: 1,
-            easing: easing.inSine
-        });
-        this.flightPath.add({
-            type: 'offset',
-            value: {x: -150},
-            start: 0.75,
-            end: 1,
-            easing: easing.inSine
-        });
-
+        for (const section of sections) {
+            for (const path of section.paths) {
+                this.flightPath.add(path);
+            }
+        }
         this.flightPath.finished();
 
         // Animation Loop

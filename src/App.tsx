@@ -65,10 +65,16 @@ function App() {
                 <Section
                     paths={[
                         {
+                            type: 'fov',
+                            value: 120,
+                            start: 0,
+                            end: 1
+                        },
+                        {
                             type: 'offset',
                             value: {z: 200},
                             start: 0,
-                            end: 0.8
+                            end: 1
                         }
                     ]}
                 >

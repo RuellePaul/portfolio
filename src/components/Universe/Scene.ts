@@ -15,12 +15,9 @@ class Scene extends ThreeScene {
         const light = new THREE.AmbientLight(0xffffff);
         this.add(light);
 
-        Array(3000)
+        Array(1000)
             .fill(0)
-            .forEach(() => this.addStar(1));
-        Array(100)
-            .fill(0)
-            .forEach(() => this.addStar(10));
+            .forEach(() => this.addStar(Math.random() * 2));
 
         // Asteroids
         const loader = new GLTFLoader();
@@ -39,7 +36,7 @@ class Scene extends ThreeScene {
         const titleText = new TextLoader(titleImage);
 
         titleText.ratio = 1265 / 198;
-        titleText.setHeight(18);
+        titleText.setHeight(10);
         titleText.position.z = -100;
 
         this.add(titleText);

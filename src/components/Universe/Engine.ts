@@ -75,7 +75,7 @@ class Engine {
             const scroller = document.querySelector('section[data-scrollbar="true"] > :first-child');
             if (!scroller) return;
             const scrollY = scroller.getBoundingClientRect().top;
-            const height = document.querySelector('main')!.clientHeight - window.innerHeight;
+            const height = document.querySelector('.scroll-content')!.clientHeight - window.innerHeight;
             const progress = Math.abs(scrollY / height);
             this.flightPath.update(progress);
             this.renderer.render(this.scene, this.camera);

@@ -2,8 +2,8 @@ import * as THREE from 'three';
 import {Scene as ThreeScene} from 'three';
 import {randInt} from 'three/src/math/MathUtils';
 import {GLTF, GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
-import {FontLoader} from 'three/examples/jsm/loaders/FontLoader';
-import {TextGeometry} from 'three/examples/jsm/geometries/TextGeometry';
+import TextLoader from 'src/components/Universe/utils/TextLoader';
+import titleImage from 'src/assets/images/test.png';
 
 class Scene extends ThreeScene {
     private model: GLTF;
@@ -26,10 +26,24 @@ class Scene extends ThreeScene {
         const loader = new GLTFLoader();
         loader.load('src/models/asteroids3.gltf', (model) => {
             this.model = model;
-            this.model.scene.position.z = -50;
+            this.model.scene.position.x = 60;
+            this.model.scene.position.z = 120;
             this.add(model.scene);
         });
+
+        // Title
+        this.createTitle();
     }
+
+    createTitle = () => {
+        const titleText = new TextLoader(titleImage);
+
+        titleText.ratio = 2746 / 1000;
+        titleText.setHeight(18);
+        titleText.position.z = -100;
+
+        this.add(titleText);
+    };
 
     addStar = (maxSize: number) => {
         const geometry = new THREE.SphereGeometry(randInt(1, maxSize));

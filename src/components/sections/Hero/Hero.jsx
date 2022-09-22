@@ -1,8 +1,32 @@
 import React from 'react';
-import {Box} from '@mui/material';
+import {Box, Grid, Paper, Typography} from '@mui/material';
 
 function Hero() {
-    return <Box sx={{border: 'dashed 5px orange', height: 5000}} />;
+    return (
+        <Grid container>
+            <Grid
+                item
+                xs={7}
+            />
+            <Grid
+                item
+                xs={5}
+            >
+                <Box height={2000} />
+
+                <Paper sx={{background: 'transparent', backdropFilter: 'invert(1)'}}>
+                    <Typography
+                        variant="h1"
+                        gutterBottom
+                    >
+                        Hello, world !
+                    </Typography>
+
+                    <Typography>Lorem ipsum dolor est...</Typography>
+                </Paper>
+            </Grid>
+        </Grid>
+    );
 }
 
 export default Hero;

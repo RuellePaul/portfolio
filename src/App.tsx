@@ -4,6 +4,7 @@ import {Box, CssBaseline} from '@mui/material';
 import Universe from 'src/components/Universe';
 import {SectionsProvider, useSections} from 'src/store/Sections';
 import {Hero, Projects, Skills} from 'src/components/sections';
+import {Path} from 'src/components/Universe/utils/FlightPath';
 
 const Section: FC<{paths: Path[]}> = ({paths, children}) => {
     const ref = useRef<HTMLElement>();
@@ -38,12 +39,6 @@ function App() {
                             value: {y: Math.PI / 2},
                             start: 0,
                             end: 0.4
-                        },
-                        {
-                            type: 'fov',
-                            value: 120,
-                            start: 0.75,
-                            end: 1
                         },
                         {
                             type: 'offset',

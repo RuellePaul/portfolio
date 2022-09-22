@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import Universe from 'src/components/Universe';
 import Scrollbar from 'react-smooth-scrollbar';
-import {Box} from '@mui/material';
+import {Box, CssBaseline} from '@mui/material';
 
 const Section: FC = ({children}) => (
     <Box sx={{border: 'solid 2px red', height: '200vh', color: 'white', fontSize: 200}}>{children}</Box>
@@ -10,6 +10,8 @@ const Section: FC = ({children}) => (
 function App() {
     return (
         <>
+            <CssBaseline enableColorScheme />
+
             <Universe />
 
             <Scrollbar damping={0.1}>

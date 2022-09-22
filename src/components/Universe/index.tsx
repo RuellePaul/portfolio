@@ -1,6 +1,7 @@
 import {memo, useEffect, useRef} from 'react';
 import styled from '@emotion/styled';
 import Engine from 'src/components/Universe/Engine';
+import {useSections} from 'src/store/Sections';
 
 const CanvasContainer = styled.div`
     canvas {
@@ -13,15 +14,17 @@ const CanvasContainer = styled.div`
 `;
 
 function Universe() {
+    const {sections} = useSections();
+
     const container = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        if (container.current) {
+        if (container.current && sections.length > 0) {
             // Setup
-            const engine = new Engine();
+            const engine = new Engine(sections);
             engine.attach(container.current);
         }
-    }, []);
+    }, [sections]);
 
     return <CanvasContainer ref={container} />;
 }

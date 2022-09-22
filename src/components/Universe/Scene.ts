@@ -15,10 +15,10 @@ class Scene extends ThreeScene {
         const light = new THREE.AmbientLight(0xffffff);
         this.add(light);
 
-        Array(2000)
+        Array(3000)
             .fill(0)
             .forEach(() => this.addStar(1));
-        Array(200)
+        Array(100)
             .fill(0)
             .forEach(() => this.addStar(10));
 
@@ -36,7 +36,7 @@ class Scene extends ThreeScene {
         const material = new THREE.MeshStandardMaterial({color: 0xffffff});
         const star = new THREE.Mesh(geometry, material);
 
-        const [x, y, z] = new Array(3).fill(0).map(() => THREE.MathUtils.randFloatSpread(2000));
+        const [x, y, z] = new Array(3).fill(0).map(() => THREE.MathUtils.randFloatSpread(3000));
         star.position.set(x, y, z);
         this.add(star);
     };

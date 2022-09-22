@@ -528,6 +528,14 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-smooth-scrollbar@^8.0.4":
+  version "8.0.4"
+  resolved "https://registry.yarnpkg.com/@types/react-smooth-scrollbar/-/react-smooth-scrollbar-8.0.4.tgz#9d11552fd1a0bb20ad43c17ed3aab73e9280e1a1"
+  integrity sha512-/GgEIw2ZS4GKOYdvdd7wJRhBajqOq7nSPEelY4OJ9bSwE1Elq3KUm+e0P3JYr/lZTLdZ8OpIm++cLlwDvEP8ag==
+  dependencies:
+    "@types/react" "*"
+    smooth-scrollbar "^8.2.5"
+
 "@types/react-transition-group@^4.4.5":
   version "4.4.5"
   resolved "https://registry.yarnpkg.com/@types/react-transition-group/-/react-transition-group-4.4.5.tgz#aae20dcf773c5aa275d5b9f7cdbca638abc5e416"
@@ -1125,7 +1133,7 @@ semver@^6.3.0:
   resolved "https://registry.yarnpkg.com/semver/-/semver-6.3.0.tgz#ee0a64c8af5e8ceea67687b133761e1becbd1d3d"
   integrity sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==
 
-smooth-scrollbar@^8.8.1:
+smooth-scrollbar@^8.2.5, smooth-scrollbar@^8.8.1:
   version "8.8.1"
   resolved "https://registry.yarnpkg.com/smooth-scrollbar/-/smooth-scrollbar-8.8.1.tgz#7e0274fbc2a427cbe816c89875c72cac592fbb2f"
   integrity sha512-FQDRtdLTRye8LdRHohNAxh0hyo7gl8+APfA+8Qu5S38MBqR8/WqOoRVzjizH6FTdbU1qGsB7gs8LhMeFJ4Jr8g==

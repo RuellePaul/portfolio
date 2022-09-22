@@ -38,7 +38,7 @@ class Scene extends ThreeScene {
     createTitle = () => {
         const titleText = new TextLoader(titleImage);
 
-        titleText.ratio = 2746 / 1000;
+        titleText.ratio = 1265 / 198;
         titleText.setHeight(18);
         titleText.position.z = -100;
 

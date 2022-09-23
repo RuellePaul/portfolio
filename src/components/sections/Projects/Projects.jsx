@@ -1,6 +1,5 @@
 import React from 'react';
 import {Box, Typography} from '@mui/material';
-import labeling_images from '../../../assets/videos/labeling_images.mp4';
 
 function Projects() {
     return (
@@ -10,7 +9,7 @@ function Projects() {
             </Box>
             <Box sx={{maxWidth: 300, padding: 4}}>
                 <video
-                    src={labeling_images}
+                    src="/videos/create_dataset.mp4"
                     autoPlay
                     draggable={false}
                     loop

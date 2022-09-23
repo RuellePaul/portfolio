@@ -3,7 +3,6 @@ import {Scene as ThreeScene} from 'three';
 import {randInt} from 'three/src/math/MathUtils';
 import {GLTF, GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
 import TextLoader from 'src/components/Universe/utils/TextLoader';
-import titleImage from 'src/assets/images/test.png';
 import IntroLandscape from 'src/components/Universe/utils/IntroLandscape';
 import {relativeProgress} from 'src/components/Universe/utils/math';
 
@@ -24,7 +23,7 @@ class Scene extends ThreeScene {
 
         // Asteroids
         const loader = new GLTFLoader();
-        loader.load('src/models/asteroids3.gltf', (model) => {
+        loader.load('/models/asteroids3.gltf', (model) => {
             this.model = model;
             this.model.scene.position.x = 25;
             this.model.scene.position.y = 25;
@@ -40,7 +39,7 @@ class Scene extends ThreeScene {
     }
 
     createTitle = () => {
-        const titleText = new TextLoader(titleImage);
+        const titleText = new TextLoader('/images/text-paulruelle.png');
 
         titleText.ratio = 1265 / 198;
         titleText.setHeight(10);

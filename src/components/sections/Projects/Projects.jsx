@@ -2,7 +2,7 @@ import React from 'react';
 import {Box} from '@mui/material';
 
 function Projects() {
-    return <Box sx={{border: 'dashed 5px orange', height: 5000}} />;
+    return <Box sx={{height: 5000, background: 'transparent', backdropFilter: 'invert(1)'}} />;
 }
 
 export default Projects;

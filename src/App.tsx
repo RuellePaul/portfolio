@@ -30,36 +30,27 @@ function App() {
                     paths={[
                         {
                             type: 'position',
-                            value: {x: 100, z: 100},
+                            value: {z: 1},
                             start: 0,
-                            end: 0.4
+                            end: 1
+                        },
+                        {
+                            type: 'fov',
+                            value: 120,
+                            start: 0,
+                            end: 1
                         },
                         {
                             type: 'rotation',
-                            value: {y: Math.PI / 2},
-                            start: 0,
-                            end: 0.4
-                        },
-                        {
-                            type: 'offset',
-                            value: {x: -150},
-                            start: 0.75,
+                            value: {x: Math.PI / 2},
+                            start: 0.6,
                             end: 1
                         }
                     ]}
                 >
                     <Hero />
                 </Section>
-                <Section
-                    paths={[
-                        {
-                            type: 'rotation',
-                            value: {x: Math.PI / 2},
-                            start: 0,
-                            end: 0.4
-                        }
-                    ]}
-                >
+                <Section paths={[]}>
                     <Projects />
                 </Section>
                 <Section

@@ -9,7 +9,7 @@ class MainCamera extends Object3D {
     constructor() {
         super();
 
-        this.cam = new PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 2000);
+        this.cam = new PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.001, 2000);
         this.xAxis = new Object3D();
         this.yAxis = new Object3D();
         this.zAxis = this;

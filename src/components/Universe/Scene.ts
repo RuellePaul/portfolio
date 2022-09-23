@@ -4,9 +4,12 @@ import {randInt} from 'three/src/math/MathUtils';
 import {GLTF, GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
 import TextLoader from 'src/components/Universe/utils/TextLoader';
 import titleImage from 'src/assets/images/test.png';
+import IntroLandscape from 'src/components/Universe/utils/IntroLandscape';
+import {relativeProgress} from 'src/components/Universe/utils/math';
 
 class Scene extends ThreeScene {
-    private model: GLTF;
+    model: GLTF;
+    landscape: IntroLandscape;
 
     constructor() {
         super();
@@ -23,13 +26,17 @@ class Scene extends ThreeScene {
         const loader = new GLTFLoader();
         loader.load('src/models/asteroids3.gltf', (model) => {
             this.model = model;
-            this.model.scene.position.x = 60;
-            this.model.scene.position.z = 120;
+            this.model.scene.position.x = 25;
+            this.model.scene.position.y = 25;
             this.add(model.scene);
         });
 
         // Title
         this.createTitle();
+
+        // Landscape
+        this.landscape = new IntroLandscape();
+        this.add(this.landscape);
     }
 
     createTitle = () => {
@@ -37,6 +44,7 @@ class Scene extends ThreeScene {
 
         titleText.ratio = 1265 / 198;
         titleText.setHeight(10);
+        titleText.position.y = 20;
         titleText.position.z = -100;
 
         this.add(titleText);
@@ -52,7 +60,7 @@ class Scene extends ThreeScene {
         this.add(star);
     };
 
-    update = () => {
+    update = (progress: number) => {
         if (this.model) {
             const ring1 = this.model.scene.children[0];
             const ring2 = this.model.scene.children[1];
@@ -75,6 +83,8 @@ class Scene extends ThreeScene {
                 child.rotation.y = t * Math.cos(i);
             });
         }
+
+        this.landscape.update(relativeProgress(progress, 0.25, 0.75));
     };
 }
 

@@ -8,4 +8,6 @@ section[data-scrollbar="true"] {
 
 .scrollbar-track .scrollbar-thumb {
     background: white !important;
+    border: solid 1px black;
+    box-shadow: 0 0 5px 2px #0000008f;
 }

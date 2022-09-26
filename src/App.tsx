@@ -1,4 +1,5 @@
 import React from 'react';
+import Developer from 'src/views/Developer';
 import Portfolio from 'src/views/Portfolio';
 import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom';
 
@@ -9,6 +10,10 @@ function App() {
                 <Route
                     path="/"
                     element={<Portfolio />}
+                />
+                <Route
+                    path="/developer"
+                    element={<Developer />}
                 />
                 <Route
                     path="*"

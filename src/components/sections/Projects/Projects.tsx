@@ -6,6 +6,7 @@ interface Project {
     stack: string[];
     description: string;
     image: string;
+    github_url: string;
 }
 
 const PROJECTS: Project[] = [
@@ -14,19 +15,23 @@ const PROJECTS: Project[] = [
         stack: ['typescript', 'react', 'python'],
         description:
             'Datatensor is a web application to prepare and manage image datasets for object detection, using an existing dataset or creating one from scratch.',
-        image: 'space-girl.svg'
+        image: 'space-girl.svg',
+        github_url: 'https://github.com/RuellePaul/datatensor'
     },
     {
         name: 'Portfolio',
-        stack: ['typescript', 'three'],
-        description: '',
-        image: ''
+        stack: ['typescript', 'three.js'],
+        description: 'The website you are currently browsing.',
+        image: '',
+        github_url: 'https://github.com/RuellePaul/portfolio'
     },
     {
         name: 'Facebook coding puzzles',
         stack: ['python', 'algorithmic'],
-        description: '',
-        image: ''
+        description:
+            "Meta's problems and solutions for practising their job interviews. Ranked in order of difficulty from I to IV.",
+        image: '',
+        github_url: 'https://github.com/RuellePaul/facebook-coding-puzzles'
     }
 ];
 
@@ -59,7 +64,6 @@ const Project: FC<{project: Project}> = ({project}) => {
             <Stack
                 spacing={1}
                 direction="row"
-                sx={{mb: 2}}
             >
                 {project.stack.map((technology) => (
                     <Chip
@@ -87,20 +91,34 @@ const Project: FC<{project: Project}> = ({project}) => {
             <Typography
                 variant="body1"
                 color="textPrimary"
-                sx={{mb: 4}}
+                sx={{my: 3}}
             >
                 {project.description}
             </Typography>
 
-            <Button
-                color="inherit"
-                startIcon={<GithubIcon />}
-                size="large"
-                variant="outlined"
+            <Stack
+                spacing={1}
+                direction="row"
             >
-                Open in Github
-            </Button>
-
+                <Button
+                    color="primary"
+                    size="large"
+                    variant="contained"
+                >
+                    Explore
+                </Button>
+                <Button
+                    component="a"
+                    href={project.github_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    startIcon={<GithubIcon />}
+                    size="large"
+                    variant="outlined"
+                >
+                    Open in Github
+                </Button>
+            </Stack>
             <Box
                 sx={{
                     position: 'absolute',

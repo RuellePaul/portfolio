@@ -1,22 +1,11 @@
 import React from 'react';
-import Portfolio from 'src/views/Portfolio';
 import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom';
-import {responsiveFontSizes, ThemeProvider} from '@mui/material';
-import {createTheme} from '@mui/material/styles';
+import {ThemeProvider} from '@mui/material';
+import theme from 'src/theme';
 import {Projects} from 'src/components/sections';
+import Portfolio from 'src/views/Portfolio';
 
 function App() {
-    let theme = createTheme({
-        palette: {
-            mode: 'dark'
-        },
-        typography: (palette) => ({
-            fontFamily: 'Sora'
-        })
-    });
-
-    theme = responsiveFontSizes(theme);
-
     return (
         <ThemeProvider theme={theme}>
             <BrowserRouter>

@@ -15,6 +15,8 @@ class Scene extends ThreeScene {
 
         // Lights
         const light = new THREE.AmbientLight(0xffffff);
+        light.color.setHex(0xf3f6f9);
+
         this.add(light);
 
         Array(1000)
@@ -66,11 +68,11 @@ class Scene extends ThreeScene {
 
             const t = window.performance.now() * 0.0005;
 
-            this.model.scene.rotation.x = -t * 0.2;
-            this.model.scene.rotation.z = -t * 0.2;
+            this.model.scene.rotation.x = -t * 0.1;
+            this.model.scene.rotation.z = -t * 0.1;
 
-            ring1.rotation.x = -t * 0.4;
-            ring2.rotation.y = -t * 0.6;
+            ring1.rotation.x = -t * 0.2;
+            ring2.rotation.y = -t * 0.2;
 
             ring1.children.forEach((child, i) => {
                 child.rotation.x = t * Math.sin(i);

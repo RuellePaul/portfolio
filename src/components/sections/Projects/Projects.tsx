@@ -23,7 +23,15 @@ const PROJECTS: Project[] = [
 
 const Project: FC<{project: Project}> = ({project}) => {
     return (
-        <Paper sx={{my: 8}}>
+        <Paper
+            sx={{
+                my: 8,
+                p: 3,
+                background: 'rgba(0, 0, 0, 0.85)',
+                backdropFilter: 'blur(5px)',
+                border: 'solid 1px black'
+            }}
+        >
             <Typography
                 variant="h3"
                 color="textPrimary"
@@ -64,7 +72,7 @@ const Project: FC<{project: Project}> = ({project}) => {
 
 function Projects() {
     return (
-        <Container maxWidth="lg">
+        <Container maxWidth="md">
             {PROJECTS.map((project) => (
                 <Project
                     project={project}

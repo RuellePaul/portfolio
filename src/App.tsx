@@ -11,11 +11,7 @@ function App() {
             mode: 'dark'
         },
         typography: (palette) => ({
-            fontFamily: 'Sora',
-            fontWeightLight: 200,
-            fontWeightRegular: 300,
-            fontWeightMedium: 400,
-            fontWeightBold: 500
+            fontFamily: 'Sora'
         })
     });
 

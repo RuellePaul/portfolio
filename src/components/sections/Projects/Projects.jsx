@@ -3,7 +3,7 @@ import {Box, Typography} from '@mui/material';
 
 function Projects() {
     return (
-        <Box sx={{height: 5000, background: 'transparent', backdropFilter: 'invert(1)'}}>
+        <Box sx={{height: 5000}}>
             <Box sx={{py: 200}}>
                 <Typography variant="h1">Projects</Typography>
             </Box>

@@ -44,6 +44,7 @@ class Engine {
         this.renderer.shadowMap.type = PCFSoftShadowMap;
         this.renderer.shadowMap.enabled = true;
 
+        this.renderer.setClearColor(0x0a1929);
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.setSize(window.innerWidth, window.innerHeight);
 

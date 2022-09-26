@@ -1,15 +1,22 @@
 import React from 'react';
-import Developer from 'src/views/Developer';
 import Portfolio from 'src/views/Portfolio';
 import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom';
 import {responsiveFontSizes, ThemeProvider} from '@mui/material';
 import {createTheme} from '@mui/material/styles';
+import {Projects} from 'src/components/sections';
 
 function App() {
     let theme = createTheme({
         palette: {
             mode: 'dark'
-        }
+        },
+        typography: (palette) => ({
+            fontFamily: 'Sora',
+            fontWeightLight: 200,
+            fontWeightRegular: 300,
+            fontWeightMedium: 400,
+            fontWeightBold: 500
+        })
     });
 
     theme = responsiveFontSizes(theme);
@@ -24,7 +31,7 @@ function App() {
                     />
                     <Route
                         path="/developer"
-                        element={<Developer />}
+                        element={<Projects />}
                     />
                     <Route
                         path="*"

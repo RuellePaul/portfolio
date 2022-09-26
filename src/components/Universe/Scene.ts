@@ -23,7 +23,7 @@ class Scene extends ThreeScene {
 
         // Asteroids
         const loader = new GLTFLoader();
-        loader.load('/models/asteroids3.gltf', (model) => {
+        loader.load('/static/models/asteroids3.gltf', (model) => {
             this.model = model;
             this.model.scene.position.x = 25;
             this.model.scene.position.y = 25;
@@ -39,7 +39,7 @@ class Scene extends ThreeScene {
     }
 
     createTitle = () => {
-        const titleText = new TextLoader('/images/text-paulruelle.png');
+        const titleText = new TextLoader('/static/images/text-paulruelle.png');
 
         titleText.ratio = 1265 / 198;
         titleText.setHeight(10);

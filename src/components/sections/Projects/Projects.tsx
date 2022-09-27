@@ -1,12 +1,15 @@
-import React, {FC} from 'react';
+import React, {FC, ReactNode} from 'react';
 import {Box, Button, Chip, Container, Paper, Stack, SvgIcon, Typography} from '@mui/material';
 
 interface Project {
     name: string;
     stack: string[];
     description: string;
-    image: string;
     github_url: string;
+    image: string;
+    legend: string;
+    overlay_image: string | null;
+    content: ReactNode | null;
 }
 
 const PROJECTS: Project[] = [
@@ -15,23 +18,53 @@ const PROJECTS: Project[] = [
         stack: ['typescript', 'react', 'python'],
         description:
             'Datatensor is a web application to prepare and manage image datasets for object detection, using an existing dataset or creating one from scratch.',
-        image: 'space-girl.svg',
-        github_url: 'https://github.com/RuellePaul/datatensor'
+        github_url: 'https://github.com/RuellePaul/datatensor',
+        image: 'datatensor.png',
+        legend: 'Datatensor homepage',
+        overlay_image: 'space-girl.svg',
+        content: (
+            <>
+                <Typography
+                    variant="h4"
+                    color="textPrimary"
+                    gutterBottom
+                >
+                    Features
+                </Typography>
+            </>
+        )
     },
     {
         name: 'Portfolio',
         stack: ['typescript', 'three.js'],
-        description: 'The website you are currently browsing.',
+        description: 'The website you are currently browsing, built using three.js library.',
+        github_url: 'https://github.com/RuellePaul/portfolio',
         image: '',
-        github_url: 'https://github.com/RuellePaul/portfolio'
+        legend: '',
+        overlay_image: null,
+        content: null
     },
     {
         name: 'Facebook coding puzzles',
         stack: ['python', 'algorithmic'],
         description:
             "Meta's problems and solutions for practising their job interviews. Ranked in order of difficulty from I to IV.",
+        github_url: 'https://github.com/RuellePaul/facebook-coding-puzzles',
+        image: 'facebook-coding-puzzles.png',
+        legend: 'State of progress of their puzzles solving',
+        overlay_image: null,
+        content: null
+    },
+    {
+        name: 'Particle filter',
+        stack: ['python', 'algorithmic'],
+        description:
+            'A visual implementation of a particle filter to estimate the position of an aircraft on steep terrain.',
+        github_url: 'https://github.com/ThomasRoudil/ParticleFilter',
         image: '',
-        github_url: 'https://github.com/RuellePaul/facebook-coding-puzzles'
+        legend: '',
+        overlay_image: null,
+        content: null
     }
 ];
 
@@ -60,7 +93,6 @@ const Project: FC<{project: Project}> = ({project}) => {
             >
                 {project.name}
             </Typography>
-
             <Stack
                 spacing={1}
                 direction="row"
@@ -91,48 +123,57 @@ const Project: FC<{project: Project}> = ({project}) => {
             <Typography
                 variant="body1"
                 color="textPrimary"
-                sx={{my: 3}}
+                sx={{my: 3, maxWidth: 650}}
             >
                 {project.description}
             </Typography>
 
-            <Stack
-                spacing={1}
-                direction="row"
+            <Button
+                component="a"
+                href={project.github_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                startIcon={<GithubIcon />}
+                size="large"
+                variant="outlined"
+                sx={{mb: 3}}
             >
-                <Button
-                    color="primary"
-                    size="large"
-                    variant="contained"
-                >
-                    Explore
-                </Button>
-                <Button
-                    component="a"
-                    href={project.github_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    startIcon={<GithubIcon />}
-                    size="large"
-                    variant="outlined"
-                >
-                    Open in Github
-                </Button>
-            </Stack>
-            <Box
-                sx={{
-                    position: 'absolute',
-                    bottom: '-100px',
-                    right: '-100px',
-                    height: 300
-                }}
+                Open in Github
+            </Button>
+
+            <img
+                src={`/static/images/${project.image}`}
+                alt={project.image}
+                width="100%"
+            />
+
+            <Typography
+                variant="caption"
+                component="p"
+                color="textSecondary"
+                align="center"
             >
-                <img
-                    src={`/static/images/${project.image}`}
-                    alt={project.image}
-                    height="100%"
-                />
-            </Box>
+                {project.legend}
+            </Typography>
+
+            {project.content}
+
+            {project.overlay_image && (
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        bottom: '-100px',
+                        right: '-100px',
+                        height: 300
+                    }}
+                >
+                    <img
+                        src={`/static/images/${project.overlay_image}`}
+                        alt={project.overlay_image}
+                        height="100%"
+                    />
+                </Box>
+            )}
         </Paper>
     );
 };

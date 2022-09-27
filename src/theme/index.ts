@@ -4,7 +4,8 @@ import {responsiveFontSizes} from '@mui/material';
 let theme = createTheme({
     components: {},
     palette: {
-        mode: 'dark'
+        mode: 'dark',
+        divider: '#46505A'
     },
     typography: (palette) => ({
         fontFamily: 'Sora'

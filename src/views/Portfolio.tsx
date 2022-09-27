@@ -36,13 +36,19 @@ function Portfolio() {
                         },
                         {
                             type: 'fov',
-                            value: 120,
+                            value: 80,
                             start: 0,
                             end: 1
                         },
                         {
                             type: 'rotation',
-                            value: {x: Math.PI / 2},
+                            value: {x: Math.PI / 3},
+                            start: 0.6,
+                            end: 1
+                        },
+                        {
+                            type: 'position',
+                            value: {y: 0.5},
                             start: 0.6,
                             end: 1
                         }
@@ -50,7 +56,22 @@ function Portfolio() {
                 >
                     <Hero />
                 </Section>
-                <Section paths={[]}>
+                <Section
+                    paths={[
+                        {
+                            type: 'rotation',
+                            value: {y: Math.PI / 10},
+                            start: 0,
+                            end: 1
+                        },
+                        {
+                            type: 'offset',
+                            value: {z: 20},
+                            start: 0,
+                            end: 1
+                        }
+                    ]}
+                >
                     <Projects />
                 </Section>
                 <Section

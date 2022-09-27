@@ -1,15 +1,15 @@
 import React, {FC, ReactNode} from 'react';
-import {Box, Button, Chip, Container, Paper, Stack, SvgIcon, Typography} from '@mui/material';
+import {Box, Button, Chip, Container, Link, Paper, Stack, SvgIcon, Tooltip, Typography} from '@mui/material';
+import ArrowRight from '@mui/icons-material/KeyboardArrowRight';
 
 interface Project {
     name: string;
     stack: string[];
-    description: string;
+    description: ReactNode;
     github_url: string;
     image: string;
     legend: string;
     overlay_image: string | null;
-    content: ReactNode | null;
 }
 
 const PROJECTS: Project[] = [
@@ -21,18 +21,7 @@ const PROJECTS: Project[] = [
         github_url: 'https://github.com/RuellePaul/datatensor',
         image: 'datatensor.png',
         legend: 'Datatensor homepage',
-        overlay_image: 'space-girl.svg',
-        content: (
-            <>
-                <Typography
-                    variant="h4"
-                    color="textPrimary"
-                    gutterBottom
-                >
-                    Features
-                </Typography>
-            </>
-        )
+        overlay_image: 'space-girl.svg'
     },
     {
         name: 'Portfolio',
@@ -41,19 +30,31 @@ const PROJECTS: Project[] = [
         github_url: 'https://github.com/RuellePaul/portfolio',
         image: '',
         legend: '',
-        overlay_image: null,
-        content: null
+        overlay_image: null
     },
     {
         name: 'Facebook coding puzzles',
         stack: ['python', 'algorithmic'],
-        description:
-            "Meta's problems and solutions for practising their job interviews. Ranked in order of difficulty from I to IV.",
+        description: (
+            <>
+                Meta's problems and solutions for practising their job interviews. Ranked in order of difficulty from 1
+                to 4.
+                <br />
+                Give it a try on{' '}
+                <Link
+                    component="a"
+                    href="https://www.metacareers.com/profile/coding_puzzles/"
+                    target="_blank"
+                >
+                    metacareers.com/profile/coding_puzzles
+                </Link>
+                .
+            </>
+        ),
         github_url: 'https://github.com/RuellePaul/facebook-coding-puzzles',
         image: 'facebook-coding-puzzles.png',
         legend: 'State of progress of their puzzles solving',
-        overlay_image: null,
-        content: null
+        overlay_image: null
     },
     {
         name: 'Particle filter',
@@ -61,10 +62,9 @@ const PROJECTS: Project[] = [
         description:
             'A visual implementation of a particle filter to estimate the position of an aircraft on steep terrain.',
         github_url: 'https://github.com/ThomasRoudil/ParticleFilter',
-        image: '',
-        legend: '',
-        overlay_image: null,
-        content: null
+        image: 'particle-filter.png',
+        legend: 'Inference of our particle filter',
+        overlay_image: null
     }
 ];
 
@@ -83,7 +83,8 @@ const Project: FC<{project: Project}> = ({project}) => {
                 p: 3,
                 background: 'rgba(0, 0, 0, 0.85)',
                 backdropFilter: 'blur(5px)',
-                border: 'solid 1px black'
+                border: 'solid 1px black',
+                boxShadow: '0px 0px 5px 2px #90caf94a'
             }}
         >
             <Typography
@@ -128,18 +129,31 @@ const Project: FC<{project: Project}> = ({project}) => {
                 {project.description}
             </Typography>
 
-            <Button
-                component="a"
-                href={project.github_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                startIcon={<GithubIcon />}
-                size="large"
-                variant="outlined"
+            <Stack
+                direction="row"
+                spacing={2}
                 sx={{mb: 3}}
             >
-                Open in Github
-            </Button>
+                <Button
+                    endIcon={<ArrowRight />}
+                    variant="contained"
+                >
+                    Learn more
+                </Button>
+                <Tooltip title="Open in Github">
+                    <Button
+                        component="a"
+                        href={project.github_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        endIcon={<GithubIcon />}
+                        size="large"
+                        variant="outlined"
+                    >
+                        {project.name}
+                    </Button>
+                </Tooltip>
+            </Stack>
 
             <img
                 src={`/static/images/${project.image}`}
@@ -155,8 +169,6 @@ const Project: FC<{project: Project}> = ({project}) => {
             >
                 {project.legend}
             </Typography>
-
-            {project.content}
 
             {project.overlay_image && (
                 <Box
@@ -181,17 +193,22 @@ const Project: FC<{project: Project}> = ({project}) => {
 function Projects() {
     return (
         <Container
-            maxWidth="md"
-            sx={{m: 'unset'}}
+            maxWidth="lg"
+            sx={{p: '0px !important'}}
         >
-            {PROJECTS.map((project) => (
-                <Box sx={{mb: '200px'}}>
-                    <Project
-                        project={project}
-                        key={project.name}
-                    />
-                </Box>
-            ))}
+            <Container
+                maxWidth="md"
+                sx={{margin: 'initial', minHeight: 5000}}
+            >
+                {PROJECTS.map((project) => (
+                    <Box sx={{mb: '200px'}}>
+                        <Project
+                            project={project}
+                            key={project.name}
+                        />
+                    </Box>
+                ))}
+            </Container>
         </Container>
     );
 }

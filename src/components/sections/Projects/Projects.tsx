@@ -195,6 +195,7 @@ function Projects() {
             maxWidth="lg"
             sx={{p: '0px !important'}}
         >
+            <Box height={1000} />
             <Container
                 maxWidth="md"
                 sx={{margin: 'initial', minHeight: 5000}}

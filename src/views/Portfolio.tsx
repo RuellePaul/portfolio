@@ -69,12 +69,6 @@ function Portfolio() {
                             value: {x: Math.PI / 3},
                             start: 0.6,
                             end: 1
-                        },
-                        {
-                            type: 'position',
-                            value: {y: 0.5},
-                            start: 0.6,
-                            end: 1
                         }
                     ]}
                 >

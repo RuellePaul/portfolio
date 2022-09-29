@@ -9,6 +9,7 @@ import {relativeProgress} from 'src/components/Universe/utils/math';
 class Scene extends ThreeScene {
     model: GLTF;
     landscape: IntroLandscape;
+    titleText: TextLoader;
 
     constructor() {
         super();
@@ -27,7 +28,7 @@ class Scene extends ThreeScene {
         const loader = new GLTFLoader();
         loader.load('/static/models/asteroids3.gltf', (model) => {
             this.model = model;
-            this.model.scene.position.x = 10;
+            if (window.innerWidth > 600) this.model.scene.position.x = 10;
             this.model.scene.position.y = 10;
             this.model.scene.position.z = -3;
             this.model.scene.scale.x = 0.25;
@@ -46,6 +47,7 @@ class Scene extends ThreeScene {
 
     createTitle = () => {
         const titleText = new TextLoader('/static/images/hero-text.png');
+        this.titleText = titleText;
 
         titleText.ratio = 1144 / 347;
         titleText.setHeight(10);
@@ -90,6 +92,13 @@ class Scene extends ThreeScene {
         }
 
         this.landscape.update(relativeProgress(progress, 0.25, 0.75));
+
+        if (progress < 0.9) {
+            this.titleText.show();
+            this.titleText.fade(1 - relativeProgress(progress, 0.5, 0.75));
+        } else {
+            this.titleText.hide();
+        }
     };
 }
 

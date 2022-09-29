@@ -21,6 +21,7 @@ class Loader {
 class TextLoader extends Mesh {
     public ratio: number;
     private height: number;
+    private hidden: boolean;
 
     constructor(image: string) {
         const geo = new PlaneGeometry(1, 1);
@@ -68,7 +69,7 @@ class TextLoader extends Mesh {
         const w = Math.min(window.innerWidth, large);
 
         const min = 1;
-        const max = 1.6;
+        const max = 4;
         const diff = max - min;
 
         const prog = max - relativeProgress(w, small, large) * diff;
@@ -76,6 +77,21 @@ class TextLoader extends Mesh {
         const h = (this.height / 1920) * w * prog;
         this.scale.y = h;
         this.scale.x = h * this.ratio;
+    };
+
+    hide = () => {
+        this.hidden = true;
+        this.visible = false;
+    };
+
+    show = () => {
+        this.hidden = false;
+        this.visible = true;
+    };
+
+    fade = (value: number) => {
+        // @ts-ignore
+        this.material.uniforms.opacity.value = value;
     };
 }
 

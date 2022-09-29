@@ -6,9 +6,8 @@ services:
     build:
       args:
         - ENVIRONMENT=${ENVIRONMENT}
-      context: ../ui
     volumes:
-      - '/ui/node_modules'
+      - '/node_modules'
     ports:
       - '3000:3000'
     networks:

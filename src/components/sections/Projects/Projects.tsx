@@ -200,7 +200,10 @@ function Projects() {
                 sx={{margin: 'initial', minHeight: 5000}}
             >
                 {PROJECTS.map((project) => (
-                    <Box sx={{mb: '200px'}}>
+                    <Box
+                        sx={{mb: '200px'}}
+                        key={project.name}
+                    >
                         <Project
                             project={project}
                             key={project.name}

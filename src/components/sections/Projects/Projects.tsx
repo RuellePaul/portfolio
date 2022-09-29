@@ -129,10 +129,25 @@ const Project: FC<{project: Project}> = ({project}) => {
                 {project.description}
             </Typography>
 
+            <img
+                src={`/static/images/${project.image}`}
+                alt={project.image}
+                width="100%"
+            />
+
+            <Typography
+                variant="caption"
+                component="p"
+                color="textSecondary"
+                align="center"
+            >
+                {project.legend}
+            </Typography>
+
             <Stack
                 direction="row"
                 spacing={2}
-                sx={{mb: 3}}
+                sx={{mt: 3}}
             >
                 <Button
                     endIcon={<ArrowRight />}
@@ -154,21 +169,6 @@ const Project: FC<{project: Project}> = ({project}) => {
                     </Button>
                 </Tooltip>
             </Stack>
-
-            <img
-                src={`/static/images/${project.image}`}
-                alt={project.image}
-                width="100%"
-            />
-
-            <Typography
-                variant="caption"
-                component="p"
-                color="textSecondary"
-                align="center"
-            >
-                {project.legend}
-            </Typography>
 
             {project.overlay_image && (
                 <Box

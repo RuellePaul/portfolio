@@ -4,6 +4,7 @@ services:
   ui:
     image: docker.pkg.github.com/RuellePaul/portfolio/portfolio_ui:${VERSION}
     build:
+      context: ../
       args:
         - ENVIRONMENT=${ENVIRONMENT}
     volumes:

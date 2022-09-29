@@ -45,12 +45,12 @@ class Scene extends ThreeScene {
     }
 
     createTitle = () => {
-        const titleText = new TextLoader('/static/images/text-paulruelle.png');
+        const titleText = new TextLoader('/static/images/hero-text.png');
 
-        titleText.ratio = 1265 / 198;
+        titleText.ratio = 1144 / 347;
         titleText.setHeight(10);
-        titleText.position.y = 20;
-        titleText.position.z = -100;
+        titleText.position.y = 15;
+        titleText.position.z = -50;
 
         this.add(titleText);
     };

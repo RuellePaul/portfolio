@@ -5,6 +5,25 @@ import Universe from 'src/components/Universe';
 import {SectionsProvider, useSections} from 'src/store/Sections';
 import {Hero, Projects, Skills} from 'src/components/sections';
 import {Path} from 'src/components/Universe/utils/FlightPath';
+import SmoothScrollbar, {ScrollbarPlugin} from 'smooth-scrollbar';
+
+class DisableScrollPlugin extends ScrollbarPlugin {
+    static pluginName = 'disableScroll';
+
+    static defaultOptions = {
+        direction: null
+    };
+
+    transformDelta(delta: any) {
+        if (this.options.direction) {
+            delta[this.options.direction] = 0;
+        }
+
+        return {...delta};
+    }
+}
+
+SmoothScrollbar.use(DisableScrollPlugin);
 
 const Section: FC<{paths: Path[]}> = ({paths, children}) => {
     const ref = useRef<HTMLElement>();
@@ -25,7 +44,12 @@ function Portfolio() {
 
             <Universe />
 
-            <Scrollbar damping={0.1}>
+            <Scrollbar
+                damping={0.08}
+                plugins={{
+                    disableScroll: {direction: 'x'}
+                }}
+            >
                 <Section
                     paths={[
                         {

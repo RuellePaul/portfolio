@@ -83,8 +83,7 @@ const Project: FC<{project: Project}> = ({project}) => {
                 p: 3,
                 background: 'rgba(0, 0, 0, 0.85)',
                 backdropFilter: 'blur(5px)',
-                border: 'solid 1px black',
-                boxShadow: '0px 0px 5px 2px #90caf94a'
+                boxShadow: '0px 0px 5px 2px #90caf99c'
             }}
         >
             <Typography

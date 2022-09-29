@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   ui:
-    image: docker.pkg.github.com/RuellePaul/portfolio/portfolio_ui:${VERSION}
+    image: docker.pkg.github.com/ruellepaul/portfolio/portfolio_ui:${VERSION}
     build:
       context: ../
       args:
@@ -20,7 +20,7 @@ services:
         max-file: "2"
 
   dispatcher:
-    image: docker.pkg.github.com/RuellePaul/portfolio/portfolio_dispatcher:${VERSION}
+    image: docker.pkg.github.com/ruellepaul/portfolio/portfolio_dispatcher:${VERSION}
     build:
       context: ../dispatcher
     volumes:

@@ -37,78 +37,6 @@ const Section: FC<{paths: Path[]}> = ({paths, children}) => {
     return <Box ref={ref}>{children}</Box>;
 };
 
-const Sections = () => {
-    return (
-        <>
-            <Section
-                paths={[
-                    {
-                        type: 'position',
-                        value: {z: 1},
-                        start: 0,
-                        end: 1
-                    },
-                    {
-                        type: 'fov',
-                        value: 80,
-                        start: 0,
-                        end: 1
-                    },
-                    {
-                        type: 'rotation',
-                        value: {x: Math.PI / 3},
-                        start: 0.6,
-                        end: 1
-                    }
-                ]}
-            >
-                <Hero />
-            </Section>
-            <Section
-                paths={[
-                    {
-                        type: 'rotation',
-                        value: {y: Math.PI / 10},
-                        start: 0,
-                        end: 1
-                    },
-                    {
-                        type: 'offset',
-                        value: {z: 20},
-                        start: 0,
-                        end: 1
-                    }
-                ]}
-            >
-                <Projects />
-            </Section>
-            <Section
-                paths={[
-                    {
-                        type: 'fov',
-                        value: 120,
-                        start: 0,
-                        end: 1
-                    },
-                    {
-                        type: 'offset',
-                        value: {z: 200},
-                        start: 0,
-                        end: 1
-                    }
-                ]}
-            >
-                <Skills />
-            </Section>
-        </>
-    );
-};
-
-export function isTouchDevice() {
-    // @ts-ignore
-    return 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
-}
-
 function Portfolio() {
     return (
         <SectionsProvider>
@@ -116,18 +44,73 @@ function Portfolio() {
 
             <Universe />
 
-            {isTouchDevice() ? (
-                <Sections />
-            ) : (
-                <Scrollbar
-                    damping={0.15}
-                    plugins={{
-                        disableScroll: {direction: 'x'}
-                    }}
+            <Scrollbar
+                damping={0.08}
+                plugins={{
+                    disableScroll: {direction: 'x'}
+                }}
+            >
+                <Section
+                    paths={[
+                        {
+                            type: 'position',
+                            value: {z: 1},
+                            start: 0,
+                            end: 1
+                        },
+                        {
+                            type: 'fov',
+                            value: 80,
+                            start: 0,
+                            end: 1
+                        },
+                        {
+                            type: 'rotation',
+                            value: {x: Math.PI / 3},
+                            start: 0.6,
+                            end: 1
+                        }
+                    ]}
                 >
-                    <Sections />
-                </Scrollbar>
-            )}
+                    <Hero />
+                </Section>
+                <Section
+                    paths={[
+                        {
+                            type: 'rotation',
+                            value: {y: Math.PI / 10},
+                            start: 0,
+                            end: 1
+                        },
+                        {
+                            type: 'offset',
+                            value: {z: 20},
+                            start: 0,
+                            end: 1
+                        }
+                    ]}
+                >
+                    <Projects />
+                </Section>
+                <Section
+                    paths={[
+                        {
+                            type: 'fov',
+                            value: 120,
+                            start: 0,
+                            end: 1
+                        },
+                        {
+                            type: 'offset',
+                            value: {z: 200},
+                            start: 0,
+                            end: 1
+                        }
+                    ]}
+                >
+                    <Skills />
+                </Section>
+            </Scrollbar>
         </SectionsProvider>
     );
 }

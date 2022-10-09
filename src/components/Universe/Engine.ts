@@ -4,6 +4,7 @@ import FlightPath from 'src/components/Universe/utils/FlightPath';
 import MainCamera from 'src/components/Universe/utils/MainCamera';
 import {Section} from 'src/store/Sections';
 import {easing} from 'src/components/Universe/utils/math';
+import {isTouchDevice} from 'src/views/Portfolio';
 
 const DEFAULT_EASING = easing.inOutSine;
 
@@ -76,7 +77,9 @@ class Engine {
         const animate = () => {
             requestAnimationFrame(animate);
             this.renderer.render(this.scene, this.camera);
-            const scroller = document.querySelector('section[data-scrollbar="true"] > :first-child');
+            const scroller = isTouchDevice()
+                ? document.body
+                : document.querySelector('section[data-scrollbar="true"] > :first-child');
             if (!scroller) return;
             const scrollY = Math.abs(scroller.getBoundingClientRect().top);
             const progress = computeProgress(scrollY, sections);

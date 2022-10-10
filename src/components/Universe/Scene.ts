@@ -9,7 +9,8 @@ import {relativeProgress} from 'src/components/Universe/utils/math';
 class Scene extends ThreeScene {
     model: GLTF;
     landscape: IntroLandscape;
-    titleText: TextLoader;
+    heroText: TextLoader;
+    projectsText: TextLoader;
 
     constructor() {
         super();
@@ -38,23 +39,34 @@ class Scene extends ThreeScene {
         });
 
         // Title
-        this.createTitle();
+        this.createTitles();
 
         // Landscape
         this.landscape = new IntroLandscape();
         this.add(this.landscape);
     }
 
-    createTitle = () => {
-        const titleText = new TextLoader('/static/images/hero-text.png');
-        this.titleText = titleText;
+    createTitles = () => {
+        const heroText = new TextLoader('/static/images/hero-text.png');
+        this.heroText = heroText;
 
-        titleText.ratio = 1144 / 347;
-        titleText.setHeight(10);
-        titleText.position.y = 15;
-        titleText.position.z = -50;
+        heroText.ratio = 1144 / 347;
+        heroText.setHeight(10);
+        heroText.position.y = 15;
+        heroText.position.z = -50;
 
-        this.add(titleText);
+        this.add(heroText);
+
+        const projectsText = new TextLoader('/static/images/projects-text.png');
+        this.projectsText = projectsText;
+
+        projectsText.ratio = 900 / 320;
+        projectsText.setHeight(10);
+        projectsText.position.y = 20;
+        projectsText.position.z = 0;
+        projectsText.rotation.x = Math.PI / 3;
+
+        this.add(projectsText);
     };
 
     addStar = (maxSize: number) => {
@@ -94,10 +106,10 @@ class Scene extends ThreeScene {
         this.landscape.update(relativeProgress(progress, 0.25, 0.75));
 
         if (progress < 0.9) {
-            this.titleText.show();
-            this.titleText.fade(1 - relativeProgress(progress, 0.5, 0.75));
+            this.heroText.show();
+            this.heroText.fade(1 - relativeProgress(progress, 0.5, 0.75));
         } else {
-            this.titleText.hide();
+            this.heroText.hide();
         }
     };
 }

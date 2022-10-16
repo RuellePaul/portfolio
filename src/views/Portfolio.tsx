@@ -45,7 +45,7 @@ function Portfolio() {
             <Universe />
 
             <Scrollbar
-                damping={0.08}
+                damping={0.1}
                 plugins={{
                     disableScroll: {direction: 'x'}
                 }}

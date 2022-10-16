@@ -1,9 +1,16 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom';
 import {ThemeProvider} from '@mui/material';
 import theme from 'src/theme';
-import {Projects} from 'src/components/sections';
 import Portfolio from 'src/views/Portfolio';
+
+const SmoothBehaviorTest = () => {
+    useEffect(() => {
+        (document.querySelector('.scroll-content') as HTMLElement).style.scrollBehavior = 'smooth';
+    }, []);
+
+    return null;
+};
 
 function App() {
     return (
@@ -16,7 +23,12 @@ function App() {
                     />
                     <Route
                         path="/developer"
-                        element={<Projects />}
+                        element={
+                            <>
+                                <Portfolio />
+                                <SmoothBehaviorTest />
+                            </>
+                        }
                     />
                     <Route
                         path="*"

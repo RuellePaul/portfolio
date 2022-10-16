@@ -10,7 +10,6 @@ class Scene extends ThreeScene {
     model: GLTF;
     landscape: IntroLandscape;
     heroText: TextLoader;
-    projectsText: TextLoader;
 
     constructor() {
         super();
@@ -56,17 +55,6 @@ class Scene extends ThreeScene {
         heroText.position.z = -50;
 
         this.add(heroText);
-
-        const projectsText = new TextLoader('/static/images/projects-text.png');
-        this.projectsText = projectsText;
-
-        projectsText.ratio = 900 / 320;
-        projectsText.setHeight(10);
-        projectsText.position.y = 20;
-        projectsText.position.z = 0;
-        projectsText.rotation.x = Math.PI / 3;
-
-        this.add(projectsText);
     };
 
     addStar = (maxSize: number) => {

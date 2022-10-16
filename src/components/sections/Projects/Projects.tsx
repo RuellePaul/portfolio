@@ -1,5 +1,17 @@
 import React, {FC, ReactNode} from 'react';
-import {Box, Button, Chip, Container, Link, Paper, Stack, SvgIcon, Tooltip, Typography} from '@mui/material';
+import {
+    Box,
+    Button,
+    Chip,
+    Container,
+    Link,
+    Paper,
+    Stack,
+    SvgIcon,
+    Tooltip,
+    Typography,
+    useMediaQuery
+} from '@mui/material';
 import ArrowRight from '@mui/icons-material/KeyboardArrowRight';
 
 interface Project {
@@ -77,6 +89,8 @@ const GithubIcon: FC = () => {
 };
 
 const Project: FC<{project: Project}> = ({project}) => {
+    const isDesktop = useMediaQuery((theme) => theme.breakpoints.up('sm'));
+
     return (
         <Paper
             sx={{
@@ -144,7 +158,7 @@ const Project: FC<{project: Project}> = ({project}) => {
             </Typography>
 
             <Stack
-                direction="row"
+                direction={isDesktop ? 'row' : 'column'}
                 spacing={2}
                 sx={{mt: 3}}
             >

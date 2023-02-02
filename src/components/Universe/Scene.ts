@@ -78,14 +78,14 @@ class Scene extends ThreeScene {
             this.model.scene.rotation.z = -t * 0.1;
 
             ring1.rotation.x = -t * 0.2;
-            ring2.rotation.y = -t * 0.2;
+            ring2.rotation.x = -t * 0.1;
 
-            ring1.children.forEach((child, i) => {
+            ring1.parent!.children.forEach((child, i) => {
                 child.rotation.x = t * Math.sin(i);
                 child.rotation.y = t * Math.cos(i);
             });
 
-            ring2.children.forEach((child, i) => {
+            ring2.parent!.children.forEach((child, i) => {
                 child.rotation.x = t * Math.sin(i);
                 child.rotation.y = t * Math.cos(i);
             });

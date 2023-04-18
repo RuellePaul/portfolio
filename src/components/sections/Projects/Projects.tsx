@@ -30,7 +30,7 @@ const PROJECTS: Project[] = [
         name: 'Melody Master',
         stack: ['typescript', 'react', 'python'],
         description:
-            'Datatensor is a web application to prepare and manage image datasets for object detection, using an existing dataset or creating one from scratch.',
+            'melodymaster.io is a multiplayer blind test game that allows you to play in real time with your friends to guess various characteristics of a song, such as the release year, title or album.',
         github_url: 'https://github.com/ThomasRoudil/melody-master',
         image: 'melodymaster.png',
         legend: 'melodymaster.io screens',
